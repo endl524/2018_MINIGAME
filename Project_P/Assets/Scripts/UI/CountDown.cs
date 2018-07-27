@@ -12,8 +12,6 @@ public class CountDown : MonoBehaviour {
     int m_Current_Count = 0; // 3으로 할것
     
 
-    bool m_is_Animation_End = false; 
-
     RawImage m_CurrentImage;
     Animator m_CountDown_Animator;
 

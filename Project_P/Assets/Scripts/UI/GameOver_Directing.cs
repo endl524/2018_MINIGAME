@@ -34,7 +34,15 @@ public class GameOver_Directing : MonoBehaviour {
     float m_Num_of_Item_Getting; // 아이템 획득 횟수
     float m_Total_Score; // 총 점수
 
-	void Start ()
+    public Text m_Distance_Text;
+    public Text m_Num_of_Small_Kill_Text;
+    public Text m_Num_of_Middle_Kill_Text;
+    public Text m_Num_of_Big_Kill_Text;
+    public Text m_Num_of_Obstacle_Text;
+    public Text m_Num_of_Item_Text;
+    public Text m_Total_Score_Text;
+
+    void Start ()
     {
         m_Directing_Images_Animation = m_Directing_Image.GetComponent<Animation>();
         m_Crack_Images_Animation = m_Crack_Image.GetComponent<Animation>();
@@ -75,34 +83,35 @@ public class GameOver_Directing : MonoBehaviour {
     {
         while (true)
         {
-            if (m_Directing_Images_Animation["GameOver_Directing_1"].normalizedTime >= 0.99f) // 1번 연출이 끝났다면
+            
+            if (m_Directing_Images_Animation["GameOver_Directing_1"].normalizedTime >= 0.95f) // 1번 연출이 끝났다면
             {
                 m_Directing_Image.GetComponent<RawImage>().texture = m_GameOver_Directing_Image2; // 이미지 변경.
-
                 m_Crack_Image.SetActive(true); // 깨짐 이미지 활성화.
 
                 m_Directing_Images_Animation.Play(m_Directing_Images_Animation.GetClip("GameOver_Directing_2").name); // 2번 연출 시작.
                 m_Crack_Images_Animation.Play(m_Crack_Images_Animation.GetClip("GameOver_Directing_Crack").name); // 깨짐 연출 시작.
             }
 
-            else if (m_Crack_Images_Animation["GameOver_Directing_Crack"].normalizedTime >= 0.99f) // 깨짐 연출이 끝났다면
-            {                
+            else if (m_Crack_Images_Animation["GameOver_Directing_Crack"].normalizedTime >= 0.95f) // 깨짐 연출이 끝났다면
+            {
                 m_UI_Panel.SetActive(true); // 점수판 활성화.
                 m_UI_Panels_Animation.Play(m_UI_Panels_Animation.GetClip("GameOver_Panel_Up").name); // 점수판 연출 시작.
             }
 
-            else if (m_UI_Panels_Animation["GameOver_Panel_Up"].normalizedTime >= 0.99f) // 점수판 연출이 끝났다면
+            else if (m_UI_Panels_Animation["GameOver_Panel_Up"].normalizedTime >= 0.95f) // 점수판 연출이 끝났다면
             {
                 m_Replay_Button.SetActive(true); // 재시작 버튼 활성화.
                 m_Replay_Buttons_Animation.Play(m_Replay_Buttons_Animation.GetClip("Replay_Button_Fly").name); // 리플레이 버튼 표시 연출 시작.
                 m_UI_Panels_Animation.Play(m_UI_Panels_Animation.GetClip("GameOver_Panel_Score").name); // 점수 표시 연출 시작.
             }
             
-            else if (m_Replay_Buttons_Animation["Replay_Button_Fly"].normalizedTime >= 0.99f) // 리플레이 버튼 표시 연출이 끝났다면
+            else if (m_Replay_Buttons_Animation["Replay_Button_Fly"].normalizedTime >= 0.95f) // 리플레이 버튼 표시 연출이 끝났다면
             {
-                StopCoroutine(GameOver_Director); // 게임오버 연출을 종료한다.
                 Destroy(m_Directing_Image); // 연출 이미지를 지운다.
                 Destroy(m_Crack_Image); // 깨짐 이미지를 지운다.
+
+                StopCoroutine(GameOver_Director); // 게임오버 연출을 종료한다.
                 StartCoroutine(Replay_Button_Swing()); // 리플레이 버튼 흔들기 시작.
             }
 
@@ -134,12 +143,26 @@ public class GameOver_Directing : MonoBehaviour {
     void Set_Up_Score_Data() // 점수 설정 메소드.
     {
         m_Distance = Distance_Checker.GetInstance().Get_Distance(); // 이동거리
-        //m_Num_of_Small_Enemy_Kill = ;
-        //m_Num_of_Middle_Enemy_Kill = ;
-        //m_Num_of_Big_Enemy_Kill = ;
-        //m_Num_of_Obstacle_Destroy = ;
-        //m_Num_of_Item_Getting = ;
+        m_Distance_Text.text = m_Distance.ToString("N2") + " m";
+
+        //m_Num_of_Small_Enemy_Kill = ; // 소형 적
+        //m_Num_of_Small_Kill_Text.text = m_Num_of_Small_Enemy_Kill.ToString() + " 마리";
+
+        //m_Num_of_Middle_Enemy_Kill = ; // 중형 적
+        //m_Num_of_Middle_Kill_Text.text = m_Num_of_Middle_Enemy_Kill.ToString() + " 마리";
+
+        //m_Num_of_Big_Enemy_Kill = ; // 대형 적
+        //m_Num_of_Big_Kill_Text.text = m_Num_of_Big_Enemy_Kill.ToString() + " 마리";
+
+        //m_Num_of_Obstacle_Destroy = ; // 장애물 파괴
+        //m_Num_of_Obstacle_Text.text = m_Num_of_Obstacle_Destroy.ToString() + " 개";
+
+        //m_Num_of_Item_Getting = ; // 아이템 획득
+        //m_Num_of_Item_Text.text = m_Num_of_Item_Getting.ToString() + " 개";
+
+
 
         //m_Total_Score = ; // 총 점수
+        //m_Total_Score_Text.text = m_Total_Score.ToString() + " 점";
     }
 }

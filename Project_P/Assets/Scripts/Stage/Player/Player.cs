@@ -107,22 +107,9 @@ public class Player : MonoBehaviour {
             {
                 if (m_Gun_Reload_Time >= Guns.GetInstance().Get_Gun_Reload_Time()) // 재장전이 완료되면.
                 {
-                    // 애니메이션 진행.
-                    Guns.GetInstance().Get_Animator().SetFloat(Guns.GetInstance().Get_Ani_N_Times_Name(), Guns.GetInstance().Get_Animator().GetFloat(Guns.GetInstance().Get_Ani_N_Times_Name()) + Time.deltaTime * 3.0f);
-
-                    if (!m_isGunFired) // 총알이 발사되지 않았다면
-                    {
-                        // 발사처리
-                        Guns.GetInstance().Gun_Fire_Range_Activate(); // 충돌박스 On
-                        m_isGunFired = true;
-                    }
-                    if (Guns.GetInstance().Get_Animator().GetFloat(Guns.GetInstance().Get_Ani_N_Times_Name()) >= 0.99f) // 애니메이션이 끝나면
-                    {
-                        Guns.GetInstance().Get_Animator().SetFloat(Guns.GetInstance().Get_Ani_N_Times_Name(), 0.0f); // 애니메이션 초기화
-                        m_Gun_Reload_Time = 0.0f; // 재장전 시간 초기화.
-                        m_isGunFired = false;
-                        Guns.GetInstance().Fire_End(); // 데미지 리스트 초기화 및 충돌박스 Off
-                    }
+                    // 발사 처리
+                    // 1. 총을 발사한다.
+                    // 2. 총 발사 애니메이션을 수행한다.
                 }
                 else m_Gun_Reload_Time += Time.deltaTime; // 재장전 대기.
             }
