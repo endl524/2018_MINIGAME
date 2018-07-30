@@ -26,13 +26,13 @@ public class GameOver_Directing : MonoBehaviour {
 
 
 
-    float m_Distance; // 이동거리
-    float m_Num_of_Small_Enemy_Kill; // 소형 적 처치 횟수
-    float m_Num_of_Middle_Enemy_Kill; // 중형 적 처치 횟수
-    float m_Num_of_Big_Enemy_Kill; // 대형 적 처치 횟수
-    float m_Num_of_Obstacle_Destroy; // 장애물 파괴 횟수
-    float m_Num_of_Item_Getting; // 아이템 획득 횟수
-    float m_Total_Score; // 총 점수
+    float m_Distance = 0.0f; // 이동거리
+    int m_Num_of_Small_Enemy_Kill = 0; // 소형 적 처치 횟수
+    int m_Num_of_Middle_Enemy_Kill = 0; // 중형 적 처치 횟수
+    int m_Num_of_Big_Enemy_Kill = 0; // 대형 적 처치 횟수
+    int m_Num_of_Obstacle_Destroy = 0; // 장애물 파괴 횟수
+    int m_Num_of_Item_Getting = 0; // 아이템 획득 횟수
+    int m_Total_Score = 0; // 총 점수
 
     public Text m_Distance_Text;
     public Text m_Num_of_Small_Kill_Text;
@@ -145,24 +145,30 @@ public class GameOver_Directing : MonoBehaviour {
         m_Distance = Distance_Checker.GetInstance().Get_Distance(); // 이동거리
         m_Distance_Text.text = m_Distance.ToString("N2") + " m";
 
-        //m_Num_of_Small_Enemy_Kill = ; // 소형 적
-        //m_Num_of_Small_Kill_Text.text = m_Num_of_Small_Enemy_Kill.ToString() + " 마리";
+        m_Num_of_Small_Enemy_Kill = StageManager.GetInstance().Get_Small_Enemy_Kill_Num(); // 소형 적 처치
+        m_Num_of_Small_Kill_Text.text = "소형 : " + m_Num_of_Small_Enemy_Kill.ToString() + " 마리";
 
-        //m_Num_of_Middle_Enemy_Kill = ; // 중형 적
-        //m_Num_of_Middle_Kill_Text.text = m_Num_of_Middle_Enemy_Kill.ToString() + " 마리";
+        m_Num_of_Middle_Enemy_Kill = StageManager.GetInstance().Get_Middle_Enemy_Kill_Num(); // 중형 적 처치
+        m_Num_of_Middle_Kill_Text.text = "중형 : " + m_Num_of_Middle_Enemy_Kill.ToString() + " 마리";
 
-        //m_Num_of_Big_Enemy_Kill = ; // 대형 적
-        //m_Num_of_Big_Kill_Text.text = m_Num_of_Big_Enemy_Kill.ToString() + " 마리";
+        m_Num_of_Big_Enemy_Kill = StageManager.GetInstance().Get_Big_Enemy_Kill_Num(); // 대형 적 처치
+        m_Num_of_Big_Kill_Text.text = "대형 : " + m_Num_of_Big_Enemy_Kill.ToString() + " 마리";
 
-        //m_Num_of_Obstacle_Destroy = ; // 장애물 파괴
-        //m_Num_of_Obstacle_Text.text = m_Num_of_Obstacle_Destroy.ToString() + " 개";
+        m_Num_of_Obstacle_Destroy = StageManager.GetInstance().Get_Obstacle_Destroy_Num(); // 장애물 파괴
+        m_Num_of_Obstacle_Text.text = m_Num_of_Obstacle_Destroy.ToString() + " 개";
 
-        //m_Num_of_Item_Getting = ; // 아이템 획득
-        //m_Num_of_Item_Text.text = m_Num_of_Item_Getting.ToString() + " 개";
+        m_Num_of_Item_Getting = StageManager.GetInstance().Get_Fish_Item_Num(); // 아이템 획득
+        m_Num_of_Item_Text.text = m_Num_of_Item_Getting.ToString() + " 개";
 
 
+        // 총 점수
+        m_Total_Score = System.Convert.ToInt32(m_Distance * 100) // 미터당 100점
+            + m_Num_of_Small_Enemy_Kill * 100 // 마리당 100점
+            + m_Num_of_Middle_Enemy_Kill * 250 // 마리당 250점
+            + m_Num_of_Big_Enemy_Kill * 500 // 마리당 500점
+            + m_Num_of_Obstacle_Destroy * 200 // 개당 200점
+            + m_Num_of_Item_Getting * 300; // 개당 300점
 
-        //m_Total_Score = ; // 총 점수
-        //m_Total_Score_Text.text = m_Total_Score.ToString() + " 점";
+        m_Total_Score_Text.text = m_Total_Score.ToString() + " 점";
     }
 }

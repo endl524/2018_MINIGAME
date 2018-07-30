@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+static class ENEMY_TYPE
+{
+    public const int SMALL = 0;
+    public const int MIDDLE = 1;
+    public const int BIG = 2;
+}
 
 public class Enemy : MonoBehaviour {
 
@@ -15,6 +21,7 @@ public class Enemy : MonoBehaviour {
     IEnumerator m_Move_Coroutine;
 
     // 스탯
+    protected int m_Enemy_Type;
     protected float m_Health = 0.0f;
     protected float m_Move_Speed = 0.0f;
     protected float m_Hoping_Speed = 0.0f;
@@ -38,18 +45,15 @@ public class Enemy : MonoBehaviour {
         return m_Instance;
     }
 
-
+    public bool Get_is_Dead()
+    {
+        return m_is_Dead;
+    }
 
     // ==========================================
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !m_is_Dead)
-        {
-            StageManager.GetInstance().Game_Over();
-            Destroy(collision.gameObject);
-        }
-
         if (collision.gameObject.CompareTag("Obstacle") && !m_is_Dead)
         {
             Destroy(collision.gameObject);
@@ -89,23 +93,22 @@ public class Enemy : MonoBehaviour {
 
     public void Hurt(float damage, float knock_back)
     {
-        m_Health -= damage;
-
-        if (m_Health <= 0.0f)
+        if (!m_is_Dead)
         {
-            m_is_Dead = true;
-            m_Animations.Play(m_Animations.GetClip("Enemy_Dead").name);
-            StartCoroutine(Dead_Coroutine());
+            m_Health -= damage;
+
+            if (m_Health <= 0.0f) Dead_Start();
+            else transform.Translate(new Vector2(-knock_back, 0.0f)); // 넉백
+
+            m_Hurt_Blinker.Play(m_Hurt_Blinker.GetClip("Enemy_Hurt2").name);
         }
-        else transform.Translate(new Vector2(-knock_back, 0.0f)); // 넉백
-        
-        m_Hurt_Blinker.Play(m_Hurt_Blinker.GetClip("Enemy_Hurt2").name);
     }
 
     protected virtual void Move() { }
 
     void Dead_Start()
     {
+        StageManager.GetInstance().Plus_Enemy_Kill_Num(m_Enemy_Type);
         m_is_Dead = true;
         m_Animations.Play(m_Animations.GetClip("Enemy_Dead").name);
         StartCoroutine(Dead_Coroutine());
@@ -129,8 +132,9 @@ public class Enemy : MonoBehaviour {
     // =====================================================
 
 
-    protected void Set_All_Status(float health, float move_speed, float hoping_speed, float hoping_max, float hoping_min)
+    protected void Set_All_Status(int type, float health, float move_speed, float hoping_speed, float hoping_max, float hoping_min)
     {
+        m_Enemy_Type = type;
         m_Health = health;
         m_Move_Speed = move_speed;
         m_Hoping_Speed = hoping_speed;

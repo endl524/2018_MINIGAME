@@ -10,6 +10,7 @@ public class Obstacle : MonoBehaviour {
 
     void OnDestroy()
     {
+        StageManager.GetInstance().Plus_Obstacle_Destroy_Num(); // 파괴될 때 파괴 개수 증가.
         StopCoroutine(m_Move_Coroutine);
     }
 

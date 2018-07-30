@@ -7,6 +7,21 @@ using UnityEngine;
 
 // 2. 발사 후 소멸할 때 큐에 다시 넣는다.
 
+static class BULLET_SIZE
+{
+    public const float SHOTGUN_X = 1.0f;
+    public const float SHOTGUN_Y = 1.0f;
+    public const float DSMG_X = 0.7f;
+    public const float DSMG_Y = 0.3f;
+}
+
+static class BULLET_FIRST_POSITION
+{
+    public const float SHOTGUN_X = -1.1f;
+    public const float SHOTGUN_Y = -3.1f;
+    //public const float DSMG_X = 0.7f;
+    //public const float DSMG_Y = 0.3f;
+}
 
 public class Projectiles : MonoBehaviour {
     
@@ -15,12 +30,11 @@ public class Projectiles : MonoBehaviour {
     float m_Knock_Back_Distance;
 
 
-
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Projectile_Catcher")) Dead(); // 화면 밖으로 나가면 소멸
 
-        if (other.CompareTag("Enemey")) // 적과 충돌 시
+        if (other.CompareTag("Enemy")) // 적과 충돌 시
         {
             other.gameObject.GetComponent<Enemy>().Hurt(m_Damage, m_Knock_Back_Distance); // 데미지와 넉백을 주고
             Dead(); // 소멸
@@ -28,8 +42,7 @@ public class Projectiles : MonoBehaviour {
 
         if (other.CompareTag("Obstacle"))
         {
-            // 1. 파괴 개수 카운팅 하도록 구현할것.
-            Destroy(other.gameObject); // 장애물 파괴
+            Destroy(other.gameObject); // 장애물 파괴 (Destroy 보다는 풀링으로 구현할 것)
             Dead(); // 소멸
         }
     }
@@ -37,35 +50,53 @@ public class Projectiles : MonoBehaviour {
 
 
 
-    public void Set_Status(int gun_type, float damage, float speed, float knock_back) // 총의 종류에 맞게 총알의 스탯 설정.
+    public void Set_Status(int gun_type) // 총의 종류에 맞게 총알의 스탯 설정.
     {
-        m_Damage = damage;
-        m_Move_Speed = speed;
-        m_Knock_Back_Distance = knock_back;
+        m_Damage = Guns.GetInstance().Get_Gun_Damage();
+        m_Move_Speed = Guns.GetInstance().Get_Gun_Bullet_Speed();
+        m_Knock_Back_Distance = Guns.GetInstance().Get_Gun_Knock_Back_Distance();
 
-        switch(gun_type)
+        Vector3 size = GetComponent<BoxCollider>().size;
+        transform.localPosition = Vector3.zero;
+        switch (gun_type)
         {
             case GUN_TYPE.SHOTGUN:
+                size.x = BULLET_SIZE.SHOTGUN_X;
+                size.y = BULLET_SIZE.SHOTGUN_Y;
+                GetComponent<BoxCollider>().size = size;
+
+                Set_Random_Direction(gun_type);
+                break;
+
+            case GUN_TYPE.DSMG:
+                size.x = BULLET_SIZE.DSMG_X;
+                size.y = BULLET_SIZE.DSMG_Y;
+                GetComponent<BoxCollider>().size = size;
+
                 Set_Random_Direction(gun_type);
                 break;
         }
+        
+        
+        
     }
-
-
     
 
     void Set_Random_Direction(int gun_type) // 랜덤방향 지정 메소드. (난사형 총기에 사용)
     {
-        Quaternion rot = transform.rotation;
+        Vector3 rot = transform.eulerAngles;
 
         switch (gun_type)
         {
             case GUN_TYPE.SHOTGUN:
-                rot.z = Random.Range(-10.0f, 10.0f);
+                rot.z = Random.Range(-7.0f, 12.0f);
+                break;
+            case GUN_TYPE.DSMG:
+                rot.z = Random.Range(-7.0f, 7.0f);
                 break;
         }
 
-        transform.rotation = rot;
+        transform.Rotate(rot);
     }
 
 
@@ -76,22 +107,30 @@ public class Projectiles : MonoBehaviour {
     {
         while(true)
         {
-            // 1. 그저 주어진 방향과 속도를 가지고 직진하면 된다.
-            if (StageManager.GetInstance().Get_isPause())
+            if (!StageManager.GetInstance().Get_isPause())
             {
-                //transform.Translate(new Vector3(-m_Move_Speed * Time.deltaTime, ))
+                transform.Translate(new Vector3(-m_Move_Speed * Time.deltaTime, 0.0f, 0.0f)); // 직진!
             }
             yield return null;
         }
     }
 
-
-
+    public void Fired()
+    {
+        StartCoroutine(Move());
+    }
 
 
     void Dead() // 총알 소멸 (큐로 복귀)
     {
-        // 1. 위치, 회전 값 초기화 시킬것.
-        // 2. 진행중인 코루틴 전부 종료할것.
+        transform.localPosition = Vector3.zero;
+        Quaternion q;
+        q.x = q.y = q.z = q.w = 0.0f;
+
+        transform.rotation = q;
+
+        StopAllCoroutines();
+
+        transform.parent.GetComponent<Projectile_Pooling_Manager>().Get_In_The_Pool(gameObject);
     }
 }

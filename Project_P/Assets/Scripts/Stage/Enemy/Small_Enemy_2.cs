@@ -6,7 +6,7 @@ public class Small_Enemy_2 : Enemy {
     
 	void Start ()
     {
-        Set_All_Status(30.0f, 2.0f, 6.0f, 3.5f, -1.7f); // 스탯 설정
+        Set_All_Status(ENEMY_TYPE.SMALL, 30.0f, 2.0f, 6.0f, 3.5f, -1.7f); // 스탯 설정
         Set_Up_Enemy_System(); // 시스템 가동
     }
     

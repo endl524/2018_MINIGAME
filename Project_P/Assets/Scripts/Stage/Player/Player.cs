@@ -8,8 +8,6 @@ public class Player : MonoBehaviour {
 
     IEnumerator m_Move_Coroutine;
     IEnumerator m_Attack_Coroutine;
-    float m_Gun_Reload_Time;
-    bool m_isGunFired = false;
 
     float m_Move_Speed = 0.4f;
     float m_Max_Sens = 50.0f;
@@ -24,6 +22,8 @@ public class Player : MonoBehaviour {
     float m_Hoping_Speed = 4.0f;
     float m_Hoping_Max = 0.2f;
     float m_Hoping_Min = -0.2f;
+
+    bool m_is_Invincible = false; // 무적 상태인가?
 
     void Awake ()
     {
@@ -51,10 +51,16 @@ public class Player : MonoBehaviour {
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (!m_is_Invincible) // 무적이 아닐때만..
         {
-            StageManager.GetInstance().Game_Over();
-            Destroy(gameObject);
+            // 장애물에 닿거나,
+            // 살아있는 적에게 닿으면 사망.
+            if (collision.gameObject.CompareTag("Obstacle") || 
+                (collision.gameObject.CompareTag("Enemy") && !collision.gameObject.GetComponent<Enemy>().Get_is_Dead()))
+            {
+                StageManager.GetInstance().Game_Over();
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -105,13 +111,7 @@ public class Player : MonoBehaviour {
         {
             if (!StageManager.GetInstance().Get_isPause())
             {
-                if (m_Gun_Reload_Time >= Guns.GetInstance().Get_Gun_Reload_Time()) // 재장전이 완료되면.
-                {
-                    // 발사 처리
-                    // 1. 총을 발사한다.
-                    // 2. 총 발사 애니메이션을 수행한다.
-                }
-                else m_Gun_Reload_Time += Time.deltaTime; // 재장전 대기.
+                Guns.GetInstance().GunFire();
             }
             yield return null;
         }

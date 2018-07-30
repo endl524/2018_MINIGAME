@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - MapFence
   - Obstacle
+  - Projectile
+  - Projectile_Catcher
   layers:
   - Default
   - TransparentFX

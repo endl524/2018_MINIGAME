@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Stage\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Stage\Enemy\Small_Enemy_1.cs" />
     <Compile Include="Assets\Scripts\Stage\Enemy\Small_Enemy_2.cs" />
+    <Compile Include="Assets\Scripts\Stage\Item\Item.cs" />
     <Compile Include="Assets\Scripts\Stage\Map\MapScroll.cs" />
     <Compile Include="Assets\Scripts\Stage\Obstacle\Obstacle.cs" />
     <Compile Include="Assets\Scripts\Stage\Obstacle\Obstacle_Ice_1.cs" />

@@ -11,8 +11,13 @@ public class StageManager : MonoBehaviour {
     public Button m_PauseButton;
     bool m_isPause;
     bool m_isGameOver;
+    int m_Got_Fish_Item_Num = 0;
+    int m_Obstacle_Destroy_Num = 0;
+    int m_Small_Enemy_Kill_Num = 0;
+    int m_Middle_Enemy_Kill_Num = 0;
+    int m_Big_Enemy_Kill_Num = 0;
 
-	void Awake ()
+    void Awake ()
     {
         m_Instance = this;
         m_isPause = true;
@@ -55,5 +60,64 @@ public class StageManager : MonoBehaviour {
         Pause_Change();
         m_PauseButton.enabled = false;
         m_isGameOver = true;
+    }
+
+
+
+    // ======================================
+
+    public int Get_Fish_Item_Num()
+    {
+        return m_Got_Fish_Item_Num;
+    }
+
+    public int Get_Obstacle_Destroy_Num()
+    {
+        return m_Obstacle_Destroy_Num;
+    }
+
+    public int Get_Small_Enemy_Kill_Num()
+    {
+        return m_Small_Enemy_Kill_Num;
+    }
+
+    public int Get_Middle_Enemy_Kill_Num()
+    {
+        return m_Middle_Enemy_Kill_Num;
+    }
+
+    public int Get_Big_Enemy_Kill_Num()
+    {
+        return m_Big_Enemy_Kill_Num;
+    }
+
+    // ======================================
+
+    public void Plus_Fish_Item_Num()
+    {
+        ++m_Got_Fish_Item_Num;
+    }
+
+    public void Plus_Obstacle_Destroy_Num()
+    {
+        ++m_Obstacle_Destroy_Num;
+    }
+
+    public void Plus_Enemy_Kill_Num(int type)
+    {
+        switch (type)
+        {
+            case ENEMY_TYPE.SMALL:
+                ++m_Small_Enemy_Kill_Num;
+                break;
+
+            case ENEMY_TYPE.MIDDLE:
+                ++m_Middle_Enemy_Kill_Num;
+                break;
+
+            case ENEMY_TYPE.BIG:
+                ++m_Big_Enemy_Kill_Num;
+                break;
+        }
     }
 }
