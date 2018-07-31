@@ -9,6 +9,9 @@ TagManager:
   - Obstacle
   - Projectile
   - Projectile_Catcher
+  - Item_Fish
+  - Item_DSMG
+  - Enemy_Catcher
   layers:
   - Default
   - TransparentFX

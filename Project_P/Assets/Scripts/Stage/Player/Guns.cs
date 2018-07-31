@@ -21,28 +21,36 @@ static class GUN_BULLET_SPEED // 총기별 총알 속도 정의
     public const float DSMG = 18.0f;
 }
 
+static class GUN_ACCURACY_ANGLE // 총기별 총알 발사 각도 정의
+{
+    public const float SHOTGUN_MAX = 3.0f;
+    public const float SHOTGUN_MIN = -7.0f;
+    public const float DSMG_MAX = 5.0f;
+    public const float DSMG_MIN = -5.0f;
+}
+
 static class GUN_BULLET_NUM // 총기별 1회 발사 총알 개수 정의
 {
-    public const int SHOTGUN = 10;
-    public const int DSMG = 1;
+    public const int SHOTGUN = 7;
+    public const int DSMG = 2;
 }
 
 static class GUN_FIRE_NUM_PER_RELOAD // 총기별 1회 장전당 발사 시도 횟수
 {
     public const int SHOTGUN = 1;
-    public const int DSMG = 25;
+    public const int DSMG = 40;
 }
 
 static class GUN_RELOAD_TIME // 총기별 재장전 시간 정의
 {
-    public const float SHOTGUN = 2.5f;
-    public const float DSMG = 5.0f;
+    public const float SHOTGUN = 1.5f;
+    public const float DSMG = 4.0f;
 }
 
 static class GUN_AUTO_FIRE_TIME // 총기별 연사속도(초당 발사 수) 정의
 {
     public const float SHOTGUN = 100.0f;
-    public const float DSMG = 0.2f;
+    public const float DSMG = 0.05f;
 }
 
 static class GUN_KNOCK_BACK_DISTANCE // 총기별 넉백 거리 정의
@@ -72,6 +80,7 @@ public class Guns : MonoBehaviour {
     float m_Waited_Reload_Time = 0.0f; // 재장전을 기다린 시간.
 
     float m_Curr_Gun_Knock_Back_Distance = 0.0f; // 현재 켜진 총의 넉백 거리.
+
     int m_Curr_Gun_Bullet_Num_Per_One_Shot = 0; // 현재 켜진 총의 1회 발사 총알 개수.
 
     int m_Curr_Gun_Fire_Per_Reload = 0; // 현재 켜진 총의 1회 장전당 발사 시도 횟수
@@ -127,17 +136,32 @@ public class Guns : MonoBehaviour {
     {
         return m_Curr_Gun_Knock_Back_Distance;
     }
+
     public float Get_Gun_Reload_Time()
     {
         return m_Curr_Gun_Reload_Time;
     }
-
-
-
+    public float Get_Waited_Reload_Time()
+    {
+        return m_Waited_Reload_Time;
+    }
+    public float Get_Gun_Bullet_Num_Per_One_Shot()
+    {
+        return m_Curr_Gun_Bullet_Num_Per_One_Shot;
+    }
+    public float Get_Gun_Fire_Per_Reload()
+    {
+        return m_Curr_Gun_Fire_Per_Reload;
+    }
+    public float Get_Gun_Left_Rounds_In_Magazine()
+    {
+        return m_Left_Rounds_In_Magazine;
+    }
+    
     // ===================================
 
-        
-    void Gun_Change(int gun_type) // 총 변경 처리.
+
+    public void Gun_Change(int gun_type) // 총 변경 처리.
     {
         m_Curr_Gun_Type = gun_type; // 현재 총기 타입 변경.
 
@@ -170,15 +194,14 @@ public class Guns : MonoBehaviour {
                 m_Curr_Gun_Bullet_Num_Per_One_Shot = GUN_BULLET_NUM.DSMG;
                 m_Curr_Gun_Fire_Per_Reload = GUN_FIRE_NUM_PER_RELOAD.DSMG;
 
-                m_Curr_Gun_Auto_Fire_Time = GUN_AUTO_FIRE_TIME.SHOTGUN;
+                m_Curr_Gun_Auto_Fire_Time = GUN_AUTO_FIRE_TIME.DSMG;
 
                 GetComponent<SpriteRenderer>().sprite = m_DSMG_Sprite;
                 GameObject.Find("Gun_Fire").GetComponent<SpriteRenderer>().sprite = m_DSMG_Fire_Sprite;
 
                 break;
-
         }
-        m_Waited_Reload_Time = m_Curr_Gun_Reload_Time; // 재장전 대기 시간 Full.
+        m_Waited_Reload_Time = 0.0f; // 재장전 대기 시간 초기화.
         m_Waited_Auto_Fire_Time = m_Curr_Gun_Auto_Fire_Time; // 연사 시간 Full.
         m_Left_Rounds_In_Magazine = m_Curr_Gun_Fire_Per_Reload; // 남은 발사 횟수 Full.
     }
@@ -197,8 +220,6 @@ public class Guns : MonoBehaviour {
                 m_Waited_Auto_Fire_Time = 0.0f; // 발사 후 연사 시간 초기화.
 
                 m_Gun_Animations.Play(m_Gun_Animations.GetClip("GunFire").name); // 발사 애니메이션 수행.
-
-                Debug.Log("Fired");
             }
         }
 
@@ -212,7 +233,6 @@ public class Guns : MonoBehaviour {
             m_Left_Rounds_In_Magazine = m_Curr_Gun_Fire_Per_Reload; // 탄창을 채운다.
             m_Waited_Auto_Fire_Time = m_Curr_Gun_Auto_Fire_Time; // 연사도 준비 한다.
             m_Waited_Reload_Time = 0.0f;
-            Debug.Log("Reloaded");
         }
 
         else // 아니면

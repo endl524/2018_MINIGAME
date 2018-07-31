@@ -7,8 +7,7 @@ using UnityEngine;
 // 총을 발사하면, 발사한 총알 개수만큼 큐에서 팝한다.
 
 public class Projectile_Pooling_Manager : MonoBehaviour {
-
-    static Projectile_Pooling_Manager m_Instance;
+    
     public Sprite m_ShotGun_Bullet;
     public Sprite m_ShotGun_Bullet_Fire;
     public Sprite m_DSMG_Bullet;
@@ -27,11 +26,6 @@ public class Projectile_Pooling_Manager : MonoBehaviour {
         }
     }
 
-    public static Projectile_Pooling_Manager GetInstance()
-    {
-        return m_Instance;
-    }
-
     public void Get_In_The_Pool(GameObject projectile)
     {
         m_Projectiles_Pool.Enqueue(projectile);
@@ -43,25 +37,25 @@ public class Projectile_Pooling_Manager : MonoBehaviour {
         if (p != null)
         {
             p.GetComponent<Projectiles>().Set_Status(type);
-            p.transform.position = m_Player.transform.position;
-            Vector3 lpos = p.transform.localPosition;
+            Vector3 lpos = m_Player.transform.position;
 
             switch (type)
             {
                 case GUN_TYPE.SHOTGUN:
-                    lpos.x = BULLET_FIRST_POSITION.SHOTGUN_X;
-                    lpos.y = BULLET_FIRST_POSITION.SHOTGUN_Y;
+                    lpos.x += BULLET_FIRST_POSITION.SHOTGUN_X;
+                    lpos.y += BULLET_FIRST_POSITION.SHOTGUN_Y;
                     p.GetComponent<SpriteRenderer>().sprite = m_ShotGun_Bullet;
-                    p.GetComponentInChildren<SpriteRenderer>().sprite = m_ShotGun_Bullet_Fire;
+                    p.GetComponentsInChildren<SpriteRenderer>()[1].sprite = m_ShotGun_Bullet_Fire;
                     break;
 
                 case GUN_TYPE.DSMG:
+
                     p.GetComponent<SpriteRenderer>().sprite = m_DSMG_Bullet;
-                    p.GetComponentsInChildren<SpriteRenderer>()[0].sprite = m_DSMG_Bullet_Fire;
+                    p.GetComponentsInChildren<SpriteRenderer>()[1].sprite = m_DSMG_Bullet_Fire;
                     break;
             }
 
-            p.transform.localPosition = lpos;
+            p.transform.position = lpos;
             p.GetComponent<Projectiles>().Fired();
         }
     }

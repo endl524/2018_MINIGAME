@@ -56,8 +56,22 @@ public class Enemy : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("Obstacle") && !m_is_Dead)
         {
-            Destroy(collision.gameObject);
-            Dead_Start();
+            if (m_Enemy_Type == ENEMY_TYPE.SMALL) // 소형은 같이죽고
+            {
+                StageManager.GetInstance().Plus_Obstacle_Destroy_Num(); // 장애물 파괴 개수 증가.
+                Destroy(collision.gameObject);
+                Dead_Start();
+            }
+            else
+            {
+                StageManager.GetInstance().Plus_Obstacle_Destroy_Num(); // 장애물 파괴 개수 증가.
+                Destroy(collision.gameObject); // 나머지는 장애물만 부순다.
+            }
+        }
+
+        if (collision.gameObject.CompareTag("Enemy_Catcher")) // 적 캐쳐에 닿으면
+        {
+            Destroy(gameObject); // 그냥 소멸하도록.
         }
     }
 
@@ -116,7 +130,7 @@ public class Enemy : MonoBehaviour {
 
     void Dead()
     {
-        if (m_Animations["Enemy_Dead"].normalizedTime >= 0.99f)
+        if (m_Animations["Enemy_Dead"].normalizedTime >= 0.95f)
         {
             Destroy(gameObject);
         }

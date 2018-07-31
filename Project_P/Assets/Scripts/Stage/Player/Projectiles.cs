@@ -17,8 +17,8 @@ static class BULLET_SIZE
 
 static class BULLET_FIRST_POSITION
 {
-    public const float SHOTGUN_X = -1.1f;
-    public const float SHOTGUN_Y = -3.1f;
+    public const float SHOTGUN_X = -0.8f;
+    public const float SHOTGUN_Y = 0.3f;
     //public const float DSMG_X = 0.7f;
     //public const float DSMG_Y = 0.3f;
 }
@@ -42,8 +42,13 @@ public class Projectiles : MonoBehaviour {
 
         if (other.CompareTag("Obstacle"))
         {
-            Destroy(other.gameObject); // 장애물 파괴 (Destroy 보다는 풀링으로 구현할 것)
-            Dead(); // 소멸
+            if (!other.GetComponent<Obstacle_And_Item>().Get_is_Destroied()) // 이미 파괴되었는지 확인.
+            {
+                other.GetComponent<Obstacle_And_Item>().Set_is_Destroied(true);
+                StageManager.GetInstance().Plus_Obstacle_Destroy_Num(); // 파괴될 때 파괴 개수 증가.
+                Destroy(other.gameObject); // 장애물 파괴 (Destroy 보다는 풀링으로 구현할 것)
+                Dead(); // 소멸
+            }
         }
     }
 
@@ -89,10 +94,10 @@ public class Projectiles : MonoBehaviour {
         switch (gun_type)
         {
             case GUN_TYPE.SHOTGUN:
-                rot.z = Random.Range(-7.0f, 12.0f);
+                rot.z = Random.Range(GUN_ACCURACY_ANGLE.SHOTGUN_MIN, GUN_ACCURACY_ANGLE.SHOTGUN_MAX);
                 break;
             case GUN_TYPE.DSMG:
-                rot.z = Random.Range(-7.0f, 7.0f);
+                rot.z = Random.Range(GUN_ACCURACY_ANGLE.DSMG_MIN, GUN_ACCURACY_ANGLE.DSMG_MAX);
                 break;
         }
 

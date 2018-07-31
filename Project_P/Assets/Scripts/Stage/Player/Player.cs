@@ -6,12 +6,15 @@ public class Player : MonoBehaviour {
 
     static Player m_Instance;
 
+    Animation m_Player_Animation;
+
     IEnumerator m_Move_Coroutine;
     IEnumerator m_Attack_Coroutine;
+    IEnumerator m_Dead_Directer;
 
     float m_Move_Speed = 0.4f;
-    float m_Max_Sens = 50.0f;
-    float m_Min_Sens = -50.0f;
+    float m_Max_Sens = 40.0f;
+    float m_Min_Sens = -40.0f;
 
 
     float m_Move_Distance = 0.0f;
@@ -25,14 +28,19 @@ public class Player : MonoBehaviour {
 
     bool m_is_Invincible = false; // 무적 상태인가?
 
+
     void Awake ()
     {
         m_Instance = this;
         m_Hoping_Max = 0.2f + transform.position.y;
         m_Hoping_Min = -0.2f + transform.position.y;
 
+        m_Player_Animation = GetComponent<Animation>();
+
         m_Move_Coroutine = Move();
         m_Attack_Coroutine = Attack();
+        m_Dead_Directer = Dead_Directing();
+
         StartCoroutine(m_Move_Coroutine);
         StartCoroutine(m_Attack_Coroutine);
     }
@@ -58,9 +66,20 @@ public class Player : MonoBehaviour {
             if (collision.gameObject.CompareTag("Obstacle") || 
                 (collision.gameObject.CompareTag("Enemy") && !collision.gameObject.GetComponent<Enemy>().Get_is_Dead()))
             {
-                StageManager.GetInstance().Game_Over();
-                Destroy(gameObject);
+                Dead_Start();
             }
+        }
+
+        if (collision.gameObject.CompareTag("Item_Fish"))
+        {
+            StageManager.GetInstance().Plus_Fish_Item_Num();
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Item_DSMG"))
+        {
+            Guns.GetInstance().Gun_Change(GUN_TYPE.DSMG);
+            Destroy(collision.gameObject);
         }
     }
 
@@ -112,6 +131,25 @@ public class Player : MonoBehaviour {
             if (!StageManager.GetInstance().Get_isPause())
             {
                 Guns.GetInstance().GunFire();
+            }
+            yield return null;
+        }
+    }
+    
+    void Dead_Start()
+    {
+        m_Player_Animation.Play(m_Player_Animation.GetClip("Player_Dead").name);
+        StartCoroutine(m_Dead_Directer);
+    }
+
+    IEnumerator Dead_Directing()
+    {
+        while (true)
+        {
+            if (m_Player_Animation["Player_Dead"].normalizedTime >= 0.95f)
+            {
+                StageManager.GetInstance().Game_Over();
+                StopCoroutine(m_Dead_Directer);
             }
             yield return null;
         }
