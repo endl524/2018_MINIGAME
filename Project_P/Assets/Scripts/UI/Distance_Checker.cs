@@ -37,7 +37,7 @@ public class Distance_Checker : MonoBehaviour {
 
     public void Set_Speed(float s) // 속도값 변경.
     {
-        m_Speed = s * 0.1f;
+        m_Speed = s * 0.12f;
     }
 
     IEnumerator Distance_Check() // 거리 체크 코루틴.

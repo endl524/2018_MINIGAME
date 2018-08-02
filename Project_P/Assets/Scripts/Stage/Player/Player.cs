@@ -13,8 +13,8 @@ public class Player : MonoBehaviour {
     IEnumerator m_Dead_Directer;
 
     float m_Move_Speed = 0.4f;
-    float m_Max_Sens = 40.0f;
-    float m_Min_Sens = -40.0f;
+    float m_Max_Sens = 45.0f;
+    float m_Min_Sens = -45.0f;
 
 
     float m_Move_Distance = 0.0f;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
     float m_Hoping_Min = -0.2f;
 
     bool m_is_Invincible = false; // 무적 상태인가?
-
+    bool m_is_Alive = true; // 살아 있는가?
 
     void Awake ()
     {
@@ -43,6 +43,9 @@ public class Player : MonoBehaviour {
 
         StartCoroutine(m_Move_Coroutine);
         StartCoroutine(m_Attack_Coroutine);
+
+        if (StageManager.GetInstance().Get_is_Debug_Mode() && StageManager.GetInstance().Get_is_invincible_On())
+            m_is_Invincible = true;
     }
 
     void OnDestroy()
@@ -59,27 +62,42 @@ public class Player : MonoBehaviour {
 
     void OnTriggerEnter(Collider collision)
     {
-        if (!m_is_Invincible) // 무적이 아닐때만..
+        if (m_is_Alive)
         {
-            // 장애물에 닿거나,
-            // 살아있는 적에게 닿으면 사망.
-            if (collision.gameObject.CompareTag("Obstacle") || 
-                (collision.gameObject.CompareTag("Enemy") && !collision.gameObject.GetComponent<Enemy>().Get_is_Dead()))
+            if (!m_is_Invincible) // 무적이 아닐때만..
             {
-                Dead_Start();
+                // 장애물에 닿거나,
+                // 살아있는 적에게 닿으면 사망.
+                if (collision.gameObject.CompareTag("Obstacle") ||
+                    (collision.gameObject.CompareTag("Enemy") && !collision.gameObject.GetComponent<Enemy>().Get_is_Dead()))
+                {
+                    Dead_Start();
+                }
             }
-        }
 
-        if (collision.gameObject.CompareTag("Item_Fish"))
-        {
-            StageManager.GetInstance().Plus_Fish_Item_Num();
-            Destroy(collision.gameObject);
-        }
+            if (collision.gameObject.CompareTag("Item_Fish"))
+            {
+                StageManager.GetInstance().Plus_Fish_Item_Num();
+                Destroy(collision.gameObject);
+            }
 
-        if (collision.gameObject.CompareTag("Item_DSMG"))
-        {
-            Guns.GetInstance().Gun_Change(GUN_TYPE.DSMG);
-            Destroy(collision.gameObject);
+            if (collision.gameObject.CompareTag("Item_DSMG"))
+            {
+                Guns.GetInstance().Gun_Change(GUN_TYPE.DSMG);
+                Destroy(collision.gameObject);
+            }
+
+            if (collision.gameObject.CompareTag("Item_ShotGun"))
+            {
+                Guns.GetInstance().Gun_Change(GUN_TYPE.SHOTGUN);
+                Destroy(collision.gameObject);
+            }
+
+            if (collision.gameObject.CompareTag("Item_AR"))
+            {
+                Guns.GetInstance().Gun_Change(GUN_TYPE.AR);
+                Destroy(collision.gameObject);
+            }
         }
     }
 
@@ -87,7 +105,7 @@ public class Player : MonoBehaviour {
     {
         while(true)
         {
-            if (!StageManager.GetInstance().Get_isPause())
+            if (!StageManager.GetInstance().Get_isPause() && m_is_Alive)
             {
                 if (Input.GetMouseButtonDown(0)) // 화면에서 뗀 상태에서 클릭 시 한번만 수행.
                 {
@@ -128,7 +146,7 @@ public class Player : MonoBehaviour {
     {
         while (true)
         {
-            if (!StageManager.GetInstance().Get_isPause())
+            if (!StageManager.GetInstance().Get_isPause() && m_is_Alive)
             {
                 Guns.GetInstance().GunFire();
             }
@@ -140,6 +158,7 @@ public class Player : MonoBehaviour {
     {
         m_Player_Animation.Play(m_Player_Animation.GetClip("Player_Dead").name);
         StartCoroutine(m_Dead_Directer);
+        m_is_Alive = false;
     }
 
     IEnumerator Dead_Directing()
@@ -153,5 +172,12 @@ public class Player : MonoBehaviour {
             }
             yield return null;
         }
+    }
+
+    public void Invincibility_Change()
+    {
+        if (m_is_Invincible)
+            m_is_Invincible = false;
+        else m_is_Invincible = true;
     }
 }

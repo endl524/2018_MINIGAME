@@ -28,7 +28,7 @@ public class CSV_Manager : MonoBehaviour {
 
     public TextAsset m_Enemy_Pattern_CSV;
     public TextAsset m_Obstacle_Pattern_CSV;
-    //public TextAsset m_Item_Pattern_CSV;
+    public TextAsset m_Item_Pattern_CSV;
 
     protected string[] m_data;
     protected string[] m_stringList;
@@ -76,17 +76,17 @@ public class CSV_Manager : MonoBehaviour {
                 m_stringList = m_Obstacle_Pattern_CSV.text.Split('\n');
                 break;
 
-            //case OBJECT_TYPE.ITEM:
-                //file_Line_Count = Counting_EOF(m_Item_Pattern_CSV);
-                //m_stringList = m_Item_Pattern_CSV.text.Split('\n');
-                //break;
+            case OBJECT_TYPE.ITEM:
+                file_Line_Count = Counting_EOF(m_Item_Pattern_CSV);
+                m_stringList = m_Item_Pattern_CSV.text.Split('\n');
+                break;
         }
 
         list.Clear(); // 리스트를 비워준다.
 
         int pattern_num = 1;
         int list_Index = 0;
-        
+        int x_multiple = 0;
         m_data = m_stringList[2].Split(','); // 한줄을 읽는다.
 
         for (int i = 2; i < file_Line_Count; ) // 2 부터 시작
@@ -96,12 +96,13 @@ public class CSV_Manager : MonoBehaviour {
             pattern_Structure.X_Offset_Distance = new int[Max_object_num_in_one_pattern]; // 임시 구조체 내부 배열 할당_3
 
             pattern_Structure.Pattern_Number = System.Convert.ToInt32(m_data[0]); // (1) 임시 구조체에 "패턴 번호" 저장.
+            x_multiple = System.Convert.ToInt32(m_data[4]); // x축 오프셋 배수 설정.
 
             while (pattern_Structure.Pattern_Number == System.Convert.ToInt32(m_data[0])) // 동일한 패턴 번호인지 확인한다.
             {
                 pattern_Structure.Line_Number[list_Index] = System.Convert.ToInt32(m_data[1]); // (2) 임시 구조체에 "라인 번호" 저장
                 pattern_Structure.Object_Number[list_Index] = System.Convert.ToInt32(m_data[2]); // (3) 임시 구조체에 "객체 번호" 저장
-                pattern_Structure.X_Offset_Distance[list_Index] = System.Convert.ToInt32(m_data[3]); // (4) 임시 구조체에 "x축 오프셋" 저장
+                pattern_Structure.X_Offset_Distance[list_Index] = System.Convert.ToInt32(m_data[3]) * x_multiple; // (4) 임시 구조체에 "x축 오프셋" 저장
                 
                 ++list_Index; // 인덱스를 1 증가시킨다.
                 ++i; // 1줄 증가시킨다.
@@ -111,7 +112,7 @@ public class CSV_Manager : MonoBehaviour {
                 else break; // 마지막 줄이라면 탈출.
             }
 
-            pattern_Structure.Count_of_Objects = list_Index - 1; // 패턴 내의 객체 수를 기록.
+            pattern_Structure.Count_of_Objects = list_Index; // 패턴 내의 객체 수를 기록.
 
             list_Index = 0; // 인덱스 초기화
             

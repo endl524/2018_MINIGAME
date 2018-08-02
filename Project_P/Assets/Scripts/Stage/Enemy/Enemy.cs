@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour {
     protected float m_Hoping_Min = 0.0f;
 
     bool m_is_Dead = false;
+    protected bool m_is_Edge = false;
     
     protected Enemy()
     {
@@ -118,7 +119,24 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    protected virtual void Move() { }
+    protected virtual void Move()
+    {
+        if (transform.localPosition.y >= m_Hoping_Max || transform.localPosition.y <= m_Hoping_Min)
+        {
+            if (!m_is_Edge)
+            {
+                m_Hoping_Speed *= -1.0f;
+                m_is_Edge = true;
+            }
+        }
+
+        transform.Translate(new Vector3(m_Move_Speed * Time.deltaTime, m_Move_Speed * m_Hoping_Speed * Time.deltaTime * 0.5f, 0.0f));
+
+        if (transform.localPosition.y < m_Hoping_Max && transform.localPosition.y > m_Hoping_Min)
+        {
+            m_is_Edge = false;
+        }
+    }
 
     void Dead_Start()
     {

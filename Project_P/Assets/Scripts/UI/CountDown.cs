@@ -9,7 +9,7 @@ public class CountDown : MonoBehaviour {
     public Texture m_CountDown_1;
     public Texture m_CountDown_Start;
 
-    int m_Current_Count = 0; // 3으로 할것
+    int m_Current_Count = 3; // 3으로 할것
     
 
     RawImage m_CurrentImage;
@@ -25,6 +25,9 @@ public class CountDown : MonoBehaviour {
         m_CurrentImage.enabled = true;
         Count_Coroutine = Counting();
         StartCoroutine(Count_Coroutine); // 카운팅 시작
+
+        if (StageManager.GetInstance().Get_is_Debug_Mode())
+            m_Current_Count = 0;
     }
 
     void OnDestroy()

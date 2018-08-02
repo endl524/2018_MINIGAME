@@ -7,56 +7,66 @@ static class GUN_TYPE // 총기 리스트 정의
 {
     public const int SHOTGUN = 0;
     public const int DSMG = 1;
+    public const int AR = 2;
 }
 
 static class GUN_DAMAGE // 총기별 총알 데미지 정의
 {
-    public const float SHOTGUN = 5.0f;
+    public const float SHOTGUN = 3.0f;
     public const float DSMG = 2.0f;
+    public const float AR = 10.0f;
 }
 
 static class GUN_BULLET_SPEED // 총기별 총알 속도 정의
 {
     public const float SHOTGUN = 15.0f;
     public const float DSMG = 18.0f;
+    public const float AR = 22.0f;
 }
 
 static class GUN_ACCURACY_ANGLE // 총기별 총알 발사 각도 정의
 {
     public const float SHOTGUN_MAX = 3.0f;
-    public const float SHOTGUN_MIN = -7.0f;
-    public const float DSMG_MAX = 5.0f;
-    public const float DSMG_MIN = -5.0f;
+    public const float SHOTGUN_MIN = -20.0f;
+    public const float DSMG_MAX = 10.0f;
+    public const float DSMG_MIN = -10.0f;
+    public const float AR_MAX = 5.0f;
+    public const float AR_MIN = -5.0f;
 }
 
 static class GUN_BULLET_NUM // 총기별 1회 발사 총알 개수 정의
 {
-    public const int SHOTGUN = 7;
+    public const int SHOTGUN = 12;
     public const int DSMG = 2;
+    public const int AR = 1;
 }
 
 static class GUN_FIRE_NUM_PER_RELOAD // 총기별 1회 장전당 발사 시도 횟수
 {
-    public const int SHOTGUN = 1;
+    public const int SHOTGUN = 5;
     public const int DSMG = 40;
+    public const int AR = 30;
 }
 
 static class GUN_RELOAD_TIME // 총기별 재장전 시간 정의
 {
-    public const float SHOTGUN = 1.5f;
-    public const float DSMG = 4.0f;
+    public const float SHOTGUN = 3.0f;
+    public const float DSMG = 3.0f;
+    public const float AR = 2.5f;
 }
 
 static class GUN_AUTO_FIRE_TIME // 총기별 연사속도(초당 발사 수) 정의
 {
-    public const float SHOTGUN = 100.0f;
+    public const float SHOTGUN = 1.0f;
     public const float DSMG = 0.05f;
+    public const float AR = 0.08f;
 }
 
 static class GUN_KNOCK_BACK_DISTANCE // 총기별 넉백 거리 정의
 {
-    public const float SHOTGUN = 2.0f;
-    public const float DSMG = 1.0f;
+    public const float SHOTGUN = 1.0f;
+    public const float DSMG = 0.5f;
+    public const float AR = 2.0f;
 }
 
 
@@ -95,7 +105,8 @@ public class Guns : MonoBehaviour {
     public Sprite m_ShotGun_Fire_Sprite;
     public Sprite m_DSMG_Sprite;
     public Sprite m_DSMG_Fire_Sprite;
-    
+    public Sprite m_AR_Sprite;
+    public Sprite m_AR_Fire_Sprite;
 
     void Awake ()
     {
@@ -198,6 +209,23 @@ public class Guns : MonoBehaviour {
 
                 GetComponent<SpriteRenderer>().sprite = m_DSMG_Sprite;
                 GameObject.Find("Gun_Fire").GetComponent<SpriteRenderer>().sprite = m_DSMG_Fire_Sprite;
+
+                break;
+
+            case GUN_TYPE.AR:
+                m_Curr_Gun_Reload_Time = GUN_RELOAD_TIME.AR;
+
+                m_Curr_Gun_Damage = GUN_DAMAGE.AR;
+                m_Curr_Gun_Bullet_Speed = GUN_BULLET_SPEED.AR;
+                m_Curr_Gun_Knock_Back_Distance = GUN_KNOCK_BACK_DISTANCE.AR;
+
+                m_Curr_Gun_Bullet_Num_Per_One_Shot = GUN_BULLET_NUM.AR;
+                m_Curr_Gun_Fire_Per_Reload = GUN_FIRE_NUM_PER_RELOAD.AR;
+
+                m_Curr_Gun_Auto_Fire_Time = GUN_AUTO_FIRE_TIME.AR;
+
+                GetComponent<SpriteRenderer>().sprite = m_AR_Sprite;
+                GameObject.Find("Gun_Fire").GetComponent<SpriteRenderer>().sprite = m_AR_Fire_Sprite;
 
                 break;
         }

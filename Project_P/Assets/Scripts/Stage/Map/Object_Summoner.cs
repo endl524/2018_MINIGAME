@@ -25,6 +25,8 @@ static class ITEM_NUMBER
 {
     public const int FISH = 0;
     public const int DSMG = 1;
+    public const int SHOTGUN = 2;
+    public const int AR = 3;
 }
 
 public class Object_Summoner : MonoBehaviour {

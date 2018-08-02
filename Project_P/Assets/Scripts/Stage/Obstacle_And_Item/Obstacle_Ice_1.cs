@@ -6,6 +6,6 @@ public class Obstacle_Ice_1 : Obstacle_And_Item
 {
 	void Start ()
     {
-        Set_Up_Obstacle_System(1.0f);
+        Set_Up_Obstacle_System(3.5f);
     }
 }

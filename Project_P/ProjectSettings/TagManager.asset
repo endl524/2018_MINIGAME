@@ -12,6 +12,8 @@ TagManager:
   - Item_Fish
   - Item_DSMG
   - Enemy_Catcher
+  - Item_ShotGun
+  - Item_AR
   layers:
   - Default
   - TransparentFX

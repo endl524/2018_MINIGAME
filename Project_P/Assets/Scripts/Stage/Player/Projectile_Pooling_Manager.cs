@@ -11,7 +11,8 @@ public class Projectile_Pooling_Manager : MonoBehaviour {
     public Sprite m_ShotGun_Bullet;
     public Sprite m_ShotGun_Bullet_Fire;
     public Sprite m_DSMG_Bullet;
-    public Sprite m_DSMG_Bullet_Fire;
+    public Sprite m_AR_Bullet;
+    public Sprite m_AR_Bullet_Fire;
     public GameObject m_Player;
 
     Queue<GameObject> m_Projectiles_Pool;
@@ -49,9 +50,17 @@ public class Projectile_Pooling_Manager : MonoBehaviour {
                     break;
 
                 case GUN_TYPE.DSMG:
-
+                    lpos.x += BULLET_FIRST_POSITION.DSMG_X;
+                    lpos.y += BULLET_FIRST_POSITION.DSMG_Y;
                     p.GetComponent<SpriteRenderer>().sprite = m_DSMG_Bullet;
-                    p.GetComponentsInChildren<SpriteRenderer>()[1].sprite = m_DSMG_Bullet_Fire;
+                    p.GetComponentsInChildren<SpriteRenderer>()[1].sprite = null;
+                    break;
+
+                case GUN_TYPE.AR:
+                    lpos.x += BULLET_FIRST_POSITION.AR_X;
+                    lpos.y += BULLET_FIRST_POSITION.AR_Y;
+                    p.GetComponent<SpriteRenderer>().sprite = m_AR_Bullet;
+                    p.GetComponentsInChildren<SpriteRenderer>()[1].sprite = m_AR_Bullet_Fire;
                     break;
             }
 

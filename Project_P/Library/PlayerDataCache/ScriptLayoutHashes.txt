@@ -120,12 +120,12 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 bb82cc44f912163093eb54cb6c03c248 Assembly-CSharp.dll:.Distance_Checker
-b95b6bf91b2917a88977d52fc3bac553 Assembly-CSharp.dll:.Projectile_Pooling_Manager
+3aebb38e9bc1c932517636e3363434ad Assembly-CSharp.dll:.Projectile_Pooling_Manager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Enemy
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Item_DSMG
-e78a1fb6f83fb1bdc05b8c1ac3c8b02c Assembly-CSharp.dll:.Guns
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Item_Gun
+b09d375dd0b309c930f27bea398baf83 Assembly-CSharp.dll:.Guns
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Player
-811167480ca3b9a1245c3809a1306e48 Assembly-CSharp.dll:.CSV_Manager
+ae8c03d47b5de6f2c280c685dd4b4362 Assembly-CSharp.dll:.CSV_Manager
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -167,4 +167,4 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SceneSwap
 20d59667903a301f4c1710748d058d28 Assembly-CSharp.dll:.GameOver_Directing
 606d3ccad8937dd1d25e6c6b305202b1 Assembly-CSharp.dll:.CountDown
-c8ea94bc167818432ff25005d3aff1c8 Assembly-CSharp.dll:.StageManager
+7f4a38acf1aee0604699d4ec086bdb6f Assembly-CSharp.dll:.StageManager

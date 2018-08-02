@@ -2547,7 +2547,8 @@ MonoBehaviour:
   m_ShotGun_Bullet_Fire: {fileID: 21300000, guid: 66aab4b106fb82448a19f9b84e9a92fe,
     type: 3}
   m_DSMG_Bullet: {fileID: 21300000, guid: ad8c937edbfc6a046b6450c8df79fc4d, type: 3}
-  m_DSMG_Bullet_Fire: {fileID: 0}
+  m_AR_Bullet: {fileID: 21300000, guid: 3e138d1fc6267044f86643cfd431e068, type: 3}
+  m_AR_Bullet_Fire: {fileID: 21300000, guid: 7fd523ce863700d44978c31b7212e417, type: 3}
   m_Player: {fileID: 0}
 --- !u!114 &114483669051709870
 MonoBehaviour:

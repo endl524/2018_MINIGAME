@@ -23,6 +23,9 @@ public class StageManager : MonoBehaviour {
     int m_Max_Obstacle_Num_in_One_Pattern; // 패턴 하나에 최대 몇개의 장애물을 둘것인가? (CSV 파일과 동기화 되어야 한다.)
     int m_Max_Item_Num_in_One_Pattern; // 패턴 하나에 최대 몇개의 아이템을 둘것인가? (CSV 파일과 동기화 되어야 한다.)
 
+    public bool m_is_Debug_Mode; // 디버그 모드용이다. (CountDown의 카운트 숫자와 Player의 무적상태 관련.)
+    public bool m_is_invincible_On; // 디버그 모드용이다. (Player의 무적상태 관련.)
+
     void Awake ()
     {
         m_Instance = this;
@@ -37,7 +40,7 @@ public class StageManager : MonoBehaviour {
         m_Obstacle_Pattern_List = new List<Object_Pattern_Structure>(); // 장애물 패턴 리스트 할당
         CSV_Manager.GetInstance().Get_Object_Pattern_List(ref m_Obstacle_Pattern_List, m_Max_Obstacle_Num_in_One_Pattern, OBJECT_TYPE.OBSTACLE); // "장애물 패턴 리스트"를 받아온다.
 
-        m_Max_Item_Num_in_One_Pattern = 15; // 일단은 최대 15개로 설정.
+        m_Max_Item_Num_in_One_Pattern = 22; // 일단은 최대 20개로 설정.
         m_Item_Pattern_List = new List<Object_Pattern_Structure>(); // 아이템 패턴 리스트 할당
         CSV_Manager.GetInstance().Get_Object_Pattern_List(ref m_Item_Pattern_List, m_Max_Item_Num_in_One_Pattern, OBJECT_TYPE.ITEM); // "아이템 패턴 리스트"를 받아온다.
     }
@@ -116,7 +119,7 @@ public class StageManager : MonoBehaviour {
 
     public void Game_Over()
     {
-        Pause_Change();
+        m_isPause = true;
         m_PauseButton.enabled = false;
         m_isGameOver = true;
     }
@@ -178,5 +181,15 @@ public class StageManager : MonoBehaviour {
                 ++m_Big_Enemy_Kill_Num;
                 break;
         }
+    }
+
+    public bool Get_is_Debug_Mode()
+    {
+        return m_is_Debug_Mode;
+    }
+
+    public bool Get_is_invincible_On()
+    {
+        return m_is_invincible_On;
     }
 }

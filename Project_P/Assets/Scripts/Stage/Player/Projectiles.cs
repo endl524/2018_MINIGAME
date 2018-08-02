@@ -13,14 +13,18 @@ static class BULLET_SIZE
     public const float SHOTGUN_Y = 1.0f;
     public const float DSMG_X = 0.7f;
     public const float DSMG_Y = 0.3f;
+    public const float AR_X = 1.3f;
+    public const float AR_Y = 0.3f;
 }
 
 static class BULLET_FIRST_POSITION
 {
     public const float SHOTGUN_X = -0.8f;
     public const float SHOTGUN_Y = 0.3f;
-    //public const float DSMG_X = 0.7f;
-    //public const float DSMG_Y = 0.3f;
+    public const float DSMG_X = -0.1f;
+    public const float DSMG_Y = 0.1f;
+    public const float AR_X = -0.8f;
+    public const float AR_Y = 0.2f;
 }
 
 public class Projectiles : MonoBehaviour {
@@ -28,7 +32,7 @@ public class Projectiles : MonoBehaviour {
     float m_Move_Speed;
     float m_Damage;
     float m_Knock_Back_Distance;
-
+    float m_Prev_Pos_Y;
 
     void OnTriggerEnter(Collider other)
     {
@@ -114,7 +118,9 @@ public class Projectiles : MonoBehaviour {
         {
             if (!StageManager.GetInstance().Get_isPause())
             {
+                m_Prev_Pos_Y = transform.localPosition.y;
                 transform.Translate(new Vector3(-m_Move_Speed * Time.deltaTime, 0.0f, 0.0f)); // 직진!
+                transform.Translate(new Vector3(0.0f, 0.0f, (transform.localPosition.y - m_Prev_Pos_Y) * m_Move_Speed * Time.deltaTime * 3.0f));
             }
             yield return null;
         }
@@ -122,6 +128,7 @@ public class Projectiles : MonoBehaviour {
 
     public void Fired()
     {
+        m_Prev_Pos_Y = transform.localPosition.y;
         StartCoroutine(Move());
     }
 
@@ -129,10 +136,12 @@ public class Projectiles : MonoBehaviour {
     void Dead() // 총알 소멸 (큐로 복귀)
     {
         transform.localPosition = Vector3.zero;
+
         Quaternion q;
         q.x = q.y = q.z = q.w = 0.0f;
-
         transform.rotation = q;
+
+        m_Prev_Pos_Y = 0.0f;
 
         StopAllCoroutines();
 
