@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Obstacle_And_Item: MonoBehaviour {
 
+    protected Animation m_Animations;
+
     IEnumerator m_Move_Coroutine;
 
     protected float m_Move_Speed;
 
     bool m_is_Destroied = false;
+    
 
     void OnDestroy()
     {
@@ -45,6 +48,7 @@ public class Obstacle_And_Item: MonoBehaviour {
     protected virtual void Move()
     {
         transform.Translate(new Vector3(-m_Move_Speed * Time.deltaTime, 0.0f, 0.0f));
+        m_Animations.Play(m_Animations.GetClip("O_AND_I_Floating").name);
     }
 
 
@@ -52,6 +56,7 @@ public class Obstacle_And_Item: MonoBehaviour {
 
     protected void Set_Up_Obstacle_System(float speed)
     {
+        m_Animations = GetComponent<Animation>();
         m_Move_Speed = speed;
         m_Move_Coroutine = Moving();
         StartCoroutine(m_Move_Coroutine);

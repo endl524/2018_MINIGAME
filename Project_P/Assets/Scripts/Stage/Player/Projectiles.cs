@@ -72,22 +72,21 @@ public class Projectiles : MonoBehaviour {
             case GUN_TYPE.SHOTGUN:
                 size.x = BULLET_SIZE.SHOTGUN_X;
                 size.y = BULLET_SIZE.SHOTGUN_Y;
-                GetComponent<BoxCollider>().size = size;
-
-                Set_Random_Direction(gun_type);
                 break;
 
             case GUN_TYPE.DSMG:
                 size.x = BULLET_SIZE.DSMG_X;
                 size.y = BULLET_SIZE.DSMG_Y;
-                GetComponent<BoxCollider>().size = size;
+                break;
 
-                Set_Random_Direction(gun_type);
+            case GUN_TYPE.AR:
+                size.x = BULLET_SIZE.AR_X;
+                size.y = BULLET_SIZE.AR_Y;
                 break;
         }
-        
-        
-        
+        GetComponent<BoxCollider>().size = size;
+
+        Set_Random_Direction(gun_type);
     }
     
 
@@ -102,6 +101,9 @@ public class Projectiles : MonoBehaviour {
                 break;
             case GUN_TYPE.DSMG:
                 rot.z = Random.Range(GUN_ACCURACY_ANGLE.DSMG_MIN, GUN_ACCURACY_ANGLE.DSMG_MAX);
+                break;
+            case GUN_TYPE.AR:
+                rot.z = Random.Range(GUN_ACCURACY_ANGLE.AR_MIN, GUN_ACCURACY_ANGLE.AR_MAX);
                 break;
         }
 

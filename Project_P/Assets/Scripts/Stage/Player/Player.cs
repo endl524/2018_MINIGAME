@@ -13,8 +13,8 @@ public class Player : MonoBehaviour {
     IEnumerator m_Dead_Directer;
 
     float m_Move_Speed = 0.4f;
-    float m_Max_Sens = 45.0f;
-    float m_Min_Sens = -45.0f;
+    float m_Max_Sens = 60.0f;
+    float m_Min_Sens = -60.0f;
 
 
     float m_Move_Distance = 0.0f;

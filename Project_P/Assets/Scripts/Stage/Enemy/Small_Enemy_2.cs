@@ -6,7 +6,7 @@ public class Small_Enemy_2 : Enemy {
     
 	void Start ()
     {
-        Set_All_Status(ENEMY_TYPE.SMALL, 25.0f, 2.5f, 6.0f, 3.5f, -1.7f); // 스탯 설정
+        Set_All_Status(ENEMY_TYPE.SMALL, 25.0f, 2.5f, 6.0f, 2.0f, -2.0f); // 스탯 설정
         Set_Up_Enemy_System(); // 시스템 가동
 
         GetComponentInChildren<SpriteRenderer>().transform.Rotate(0.0f, 0.0f, 70.0f);
@@ -14,7 +14,7 @@ public class Small_Enemy_2 : Enemy {
 
     protected override void Move()
     {
-        if (transform.localPosition.y >= m_Hoping_Max)// || transform.localPosition.y <= m_Hoping_Min)
+        if (transform.localPosition.y >= m_Hoping_Max)
         {
             m_Animations.Play(m_Animations.GetClip("Small_Enemy_2_Move_Down").name);
 

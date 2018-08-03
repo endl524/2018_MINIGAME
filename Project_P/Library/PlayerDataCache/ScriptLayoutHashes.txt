@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/pc/Desktop/현장실습 프로젝트/2018_MINIGAME/Build_Files/Build_Files.exe
+C:/Users/pc/Desktop/현장실습 프로젝트/2018_MINIGAME/Build_180803/Build_180803.exe
 SceneListBegin?
 Assets/Scenes/Lobby.unity
 Assets/Scenes/MainStage.unity
@@ -125,6 +125,7 @@ bb82cc44f912163093eb54cb6c03c248 Assembly-CSharp.dll:.Distance_Checker
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Item_Gun
 b09d375dd0b309c930f27bea398baf83 Assembly-CSharp.dll:.Guns
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Player
+81c31f8778d5bf45a2c24de8ce80436d Assembly-CSharp.dll:.Score_Board_UI
 ae8c03d47b5de6f2c280c685dd4b4362 Assembly-CSharp.dll:.CSV_Manager
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour

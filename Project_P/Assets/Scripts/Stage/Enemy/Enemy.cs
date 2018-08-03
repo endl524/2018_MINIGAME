@@ -113,9 +113,13 @@ public class Enemy : MonoBehaviour {
             m_Health -= damage;
 
             if (m_Health <= 0.0f) Dead_Start();
-            else transform.Translate(new Vector2(-knock_back, 0.0f)); // 넉백
-
-            m_Hurt_Blinker.Play(m_Hurt_Blinker.GetClip("Enemy_Hurt2").name);
+            else
+            {
+                if (m_Enemy_Type == ENEMY_TYPE.SMALL) // 소형적은 넉백된다.
+                    transform.Translate(new Vector2(-knock_back, 0.0f)); // 넉백
+            }
+            
+            m_Hurt_Blinker.Play(m_Hurt_Blinker.GetClip("Enemy_Hurt").name);
         }
     }
 
@@ -136,6 +140,16 @@ public class Enemy : MonoBehaviour {
         {
             m_is_Edge = false;
         }
+    }
+
+    protected void Start_Move()
+    {
+        StartCoroutine(m_Move_Coroutine);
+    }
+
+    protected void Stop_Move()
+    {
+        StopCoroutine(m_Move_Coroutine);
     }
 
     void Dead_Start()
@@ -182,4 +196,6 @@ public class Enemy : MonoBehaviour {
         m_Move_Coroutine = Moving(); // 이동 코루틴 등록
         StartCoroutine(m_Move_Coroutine); // 이동 시작
     }
+
+    
 }

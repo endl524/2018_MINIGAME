@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="Assets\FastMobileBloom\FastMobileBloom.cs" />
     <Compile Include="Assets\Scripts\Stage\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Stage\Enemy\Middle_Enemy_1.cs" />
+    <Compile Include="Assets\Scripts\Stage\Enemy\Middle_Enemy_1_Detector.cs" />
     <Compile Include="Assets\Scripts\Stage\Enemy\Small_Enemy_1.cs" />
     <Compile Include="Assets\Scripts\Stage\Enemy\Small_Enemy_2.cs" />
     <Compile Include="Assets\Scripts\Stage\Map\MapScroll.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Assets\Scripts\UI\Distance_Checker.cs" />
     <Compile Include="Assets\Scripts\UI\GameOver_Directing.cs" />
     <Compile Include="Assets\Scripts\UI\Gun_Ammo_Gauge.cs" />
+    <Compile Include="Assets\Scripts\UI\Score_Board_UI.cs" />
     <None Include="Assets\FastMobileBloom\readme.txt" />
     <None Include="Assets\FastMobileBloom\FastMobileBloom.shader" />
     <Reference Include="UnityEditor.StandardEvents">

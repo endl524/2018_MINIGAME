@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 65528009742062360}
   - component: {fileID: 54354977357406368}
   - component: {fileID: 114237241842514142}
+  - component: {fileID: 111363224560731878}
   m_Layer: 0
   m_Name: Item_DSMG
   m_TagString: Item_DSMG
@@ -99,6 +100,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.2, z: 0.4}
   m_Center: {x: 0, y: -0.4, z: 0}
+--- !u!111 &111363224560731878
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1978705623548476}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 3935ed7522aec714bb655b8608f3a8f0, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114237241842514142
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -158,11 +158,13 @@ public class StageManager : MonoBehaviour {
     public void Plus_Fish_Item_Num()
     {
         ++m_Got_Fish_Item_Num;
+        Score_Board_UI.GetInstance().Set_Item_Num_Text(m_Got_Fish_Item_Num);
     }
 
     public void Plus_Obstacle_Destroy_Num()
     {
         ++m_Obstacle_Destroy_Num;
+        Score_Board_UI.GetInstance().Set_Obstacle_Num_Text(m_Obstacle_Destroy_Num);
     }
 
     public void Plus_Enemy_Kill_Num(int type)
@@ -171,14 +173,17 @@ public class StageManager : MonoBehaviour {
         {
             case ENEMY_TYPE.SMALL:
                 ++m_Small_Enemy_Kill_Num;
+                Score_Board_UI.GetInstance().Set_Small_Kill_Num_Text(m_Small_Enemy_Kill_Num);
                 break;
 
             case ENEMY_TYPE.MIDDLE:
                 ++m_Middle_Enemy_Kill_Num;
+                Score_Board_UI.GetInstance().Set_Middle_Kill_Num_Text(m_Middle_Enemy_Kill_Num);
                 break;
 
             case ENEMY_TYPE.BIG:
                 ++m_Big_Enemy_Kill_Num;
+                Score_Board_UI.GetInstance().Set_Big_Kill_Num_Text(m_Big_Enemy_Kill_Num);
                 break;
         }
     }

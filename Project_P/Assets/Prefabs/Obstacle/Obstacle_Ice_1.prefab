@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 65442737622249328}
   - component: {fileID: 54109834479417708}
   - component: {fileID: 114405576861021194}
+  - component: {fileID: 111596875390028448}
   m_Layer: 0
   m_Name: Obstacle_Ice_1
   m_TagString: Obstacle
@@ -129,6 +130,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1, z: 0.25}
   m_Center: {x: 0, y: -0.4, z: 0}
+--- !u!111 &111596875390028448
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1190604026837820}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 3935ed7522aec714bb655b8608f3a8f0, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114405576861021194
 MonoBehaviour:
   m_ObjectHideFlags: 1
