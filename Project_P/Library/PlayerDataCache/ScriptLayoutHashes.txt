@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/pc/Desktop/현장실습 프로젝트/2018_MINIGAME/Build_180803/Build_180803.exe
+C:/Users/pc/Desktop/현장실습 프로젝트/2018_MINIGAME/Build_180806/Build_180806.exe
 SceneListBegin?
 Assets/Scenes/Lobby.unity
 Assets/Scenes/MainStage.unity
@@ -17,6 +17,8 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 607d64d2c4bc76ac9876e6f7b9cc7edf UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.FeverTime_Gauge
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Middle_Enemy_1
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
 49cd62a578efc0a599b810a2b66cd49c UnityEngine.UI.dll:UnityEngine.UI.Button
@@ -122,6 +124,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 bb82cc44f912163093eb54cb6c03c248 Assembly-CSharp.dll:.Distance_Checker
 3aebb38e9bc1c932517636e3363434ad Assembly-CSharp.dll:.Projectile_Pooling_Manager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Enemy
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Middle_Enemy_1_Detector
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Item_Gun
 b09d375dd0b309c930f27bea398baf83 Assembly-CSharp.dll:.Guns
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Player
@@ -166,6 +169,6 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 405e8c4f145ef92b3b573787f2985e99 Assembly-CSharp.dll:.FastMobileBloom
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SceneSwap
-20d59667903a301f4c1710748d058d28 Assembly-CSharp.dll:.GameOver_Directing
+2328b7492798cf7ab193c55a38f1ad6b Assembly-CSharp.dll:.GameOver_Directing
 606d3ccad8937dd1d25e6c6b305202b1 Assembly-CSharp.dll:.CountDown
-7f4a38acf1aee0604699d4ec086bdb6f Assembly-CSharp.dll:.StageManager
+3eba32477a2eeb114b145e4ad7177bda Assembly-CSharp.dll:.StageManager

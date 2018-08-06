@@ -26,20 +26,20 @@ public class GameOver_Directing : MonoBehaviour {
 
 
 
-    float m_Distance = 0.0f; // 이동거리
-    int m_Num_of_Small_Enemy_Kill = 0; // 소형 적 처치 횟수
-    int m_Num_of_Middle_Enemy_Kill = 0; // 중형 적 처치 횟수
-    int m_Num_of_Big_Enemy_Kill = 0; // 대형 적 처치 횟수
-    int m_Num_of_Obstacle_Destroy = 0; // 장애물 파괴 횟수
-    int m_Num_of_Item_Getting = 0; // 아이템 획득 횟수
+    int m_Score_of_Distance = 0; // 이동거리 점수
+    int m_Score_of_Small_Enemy_Kill = 0; // 소형 적 처치 점수
+    int m_Score_of_Middle_Enemy_Kill = 0; // 중형 적 처치 점수
+    int m_Score_of_Boss_Enemy_Kill = 0; // 대형(보스) 적 처치 점수
+    int m_Score_of_Obstacle_Destroy = 0; // 장애물 파괴 점수
+    int m_Score_of_Item_Getting = 0; // 아이템 획득 점수
     int m_Total_Score = 0; // 총 점수
 
     public Text m_Distance_Text;
-    public Text m_Num_of_Small_Kill_Text;
-    public Text m_Num_of_Middle_Kill_Text;
-    public Text m_Num_of_Big_Kill_Text;
-    public Text m_Num_of_Obstacle_Text;
-    public Text m_Num_of_Item_Text;
+    public Text m_Small_Kill_Text;
+    public Text m_Middle_Kill_Text;
+    public Text m_Boss_Kill_Text;
+    public Text m_Obstacle_Text;
+    public Text m_Item_Text;
     public Text m_Total_Score_Text;
 
     void Start ()
@@ -142,32 +142,26 @@ public class GameOver_Directing : MonoBehaviour {
 
     void Set_Up_Score_Data() // 점수 설정 메소드.
     {
-        m_Distance = Distance_Checker.GetInstance().Get_Distance(); // 이동거리
-        m_Distance_Text.text = m_Distance.ToString("N2") + " m";
+        m_Score_of_Distance = System.Convert.ToInt32(Distance_Checker.GetInstance().Get_Distance() * 100); // 1m당 100점
+        m_Distance_Text.text = m_Score_of_Distance.ToString() + " 점";
 
-        m_Num_of_Small_Enemy_Kill = StageManager.GetInstance().Get_Small_Enemy_Kill_Num(); // 소형 적 처치
-        m_Num_of_Small_Kill_Text.text = "소형 : " + m_Num_of_Small_Enemy_Kill.ToString() + " 마리";
+        m_Score_of_Small_Enemy_Kill = StageManager.GetInstance().Get_Small_Enemy_Kill_Num() * 200; // 킬당 200점
+        m_Small_Kill_Text.text = "소형 : " + m_Score_of_Small_Enemy_Kill.ToString() + " 점";
 
-        m_Num_of_Middle_Enemy_Kill = StageManager.GetInstance().Get_Middle_Enemy_Kill_Num(); // 중형 적 처치
-        m_Num_of_Middle_Kill_Text.text = "중형 : " + m_Num_of_Middle_Enemy_Kill.ToString() + " 마리";
+        m_Score_of_Middle_Enemy_Kill = StageManager.GetInstance().Get_Middle_Enemy_Kill_Num() * 1500; // 킬당 1500점
+        m_Middle_Kill_Text.text = "중형 : " + m_Score_of_Middle_Enemy_Kill.ToString() + " 점";
 
-        m_Num_of_Big_Enemy_Kill = StageManager.GetInstance().Get_Big_Enemy_Kill_Num(); // 대형 적 처치
-        m_Num_of_Big_Kill_Text.text = "대형 : " + m_Num_of_Big_Enemy_Kill.ToString() + " 마리";
+        m_Score_of_Boss_Enemy_Kill = StageManager.GetInstance().Get_Big_Enemy_Kill_Num() * 10000; // 킬당 10000점
+        m_Boss_Kill_Text.text = "보스 : " + m_Score_of_Boss_Enemy_Kill.ToString() + " 점";
 
-        m_Num_of_Obstacle_Destroy = StageManager.GetInstance().Get_Obstacle_Destroy_Num(); // 장애물 파괴
-        m_Num_of_Obstacle_Text.text = m_Num_of_Obstacle_Destroy.ToString() + " 개";
+        m_Score_of_Obstacle_Destroy = StageManager.GetInstance().Get_Obstacle_Destroy_Num() * 200; // 파괴당 200점
+        m_Obstacle_Text.text = m_Score_of_Obstacle_Destroy.ToString() + " 점";
 
-        m_Num_of_Item_Getting = StageManager.GetInstance().Get_Fish_Item_Num(); // 아이템 획득
-        m_Num_of_Item_Text.text = m_Num_of_Item_Getting.ToString() + " 개";
-
+        m_Score_of_Item_Getting = StageManager.GetInstance().Get_Fish_Item_Num() * 300; // 개당 300점
+        m_Item_Text.text = m_Score_of_Item_Getting.ToString() + " 점";
 
         // 총 점수
-        m_Total_Score = System.Convert.ToInt32(m_Distance * 100) // 미터당 100점
-            + m_Num_of_Small_Enemy_Kill * 100 // 마리당 100점
-            + m_Num_of_Middle_Enemy_Kill * 250 // 마리당 250점
-            + m_Num_of_Big_Enemy_Kill * 500 // 마리당 500점
-            + m_Num_of_Obstacle_Destroy * 200 // 개당 200점
-            + m_Num_of_Item_Getting * 300; // 개당 300점
+        m_Total_Score = m_Score_of_Distance + m_Score_of_Small_Enemy_Kill + m_Score_of_Middle_Enemy_Kill + m_Score_of_Boss_Enemy_Kill + m_Score_of_Obstacle_Destroy + m_Score_of_Item_Getting;
 
         m_Total_Score_Text.text = m_Total_Score.ToString() + " 점";
     }

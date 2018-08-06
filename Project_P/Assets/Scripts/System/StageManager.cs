@@ -3,7 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+static class FEVER_TIME_POINT
+{
+    public const int FISH_ITEM = 100; // 물고기 아이템 획득 시 마다
+    public const int DISTANCE_1M = 10; // 1m 마다
+    public const int DISTANCE_10M = 50; // 10m 마다
+    public const int DISTANCE_100M = 1000; // 100m 마다
+    public const int DISTANCE_300M = 3000; // 300m 마다
+}
 
+static class FEVER_TIME_SPEED
+{
+    public const float NORMAL = 1.0f; // 기존상태 = 속도 1배
+    public const float SLOWDOWN_X2 = 2.0f; // 감속 (2배)
+    public const float SLOWDOWN_X3 = 3.0f; // 감속 (3배)
+    public const float SLOWDOWN_X4 = 4.0f; // 감속 (4배)
+    public const float FEVER = 5.0f; // 피버타임 = 속도 5배
+}
 
 public class StageManager : MonoBehaviour {
 
@@ -22,6 +38,14 @@ public class StageManager : MonoBehaviour {
     int m_Max_Enemy_Num_in_One_Pattern; // 패턴 하나에 최대 몇마리의 적을 둘것인가? (CSV 파일과 동기화 되어야 한다.)
     int m_Max_Obstacle_Num_in_One_Pattern; // 패턴 하나에 최대 몇개의 장애물을 둘것인가? (CSV 파일과 동기화 되어야 한다.)
     int m_Max_Item_Num_in_One_Pattern; // 패턴 하나에 최대 몇개의 아이템을 둘것인가? (CSV 파일과 동기화 되어야 한다.)
+    
+
+    bool m_is_FeverTime_On = false; // 피버타임이 발동했는가?
+    int m_FeverTime_Max_Point = 10000; // 피버타임 발동 포인트
+    public int m_Curr_FeverTime_Point = 0; // 현재 모인 피버타임 포인트
+    float m_FeverTime_Duration = 5.0f; // 피버타임 유지시간.
+    float m_Elapsed_FeverTime; // 피버타임 경과시간.
+    float m_SlowDown_Time; // 피버타임 종료 시 급정지가 아닌 천천히 정지하도록 유도하기위한 장치.
 
     public bool m_is_Debug_Mode; // 디버그 모드용이다. (CountDown의 카운트 숫자와 Player의 무적상태 관련.)
     public bool m_is_invincible_On; // 디버그 모드용이다. (Player의 무적상태 관련.)
@@ -43,6 +67,10 @@ public class StageManager : MonoBehaviour {
         m_Max_Item_Num_in_One_Pattern = 22; // 일단은 최대 20개로 설정.
         m_Item_Pattern_List = new List<Object_Pattern_Structure>(); // 아이템 패턴 리스트 할당
         CSV_Manager.GetInstance().Get_Object_Pattern_List(ref m_Item_Pattern_List, m_Max_Item_Num_in_One_Pattern, OBJECT_TYPE.ITEM); // "아이템 패턴 리스트"를 받아온다.
+
+
+        m_Elapsed_FeverTime = m_FeverTime_Duration; // 피버타임 시간 초기화.
+        StartCoroutine(FeverTime()); // 피버타임 검사 시작.
     }
 
     public static StageManager GetInstance() // StageManager 객체 반환
@@ -159,6 +187,9 @@ public class StageManager : MonoBehaviour {
     {
         ++m_Got_Fish_Item_Num;
         Score_Board_UI.GetInstance().Set_Item_Num_Text(m_Got_Fish_Item_Num);
+
+        if (!m_is_FeverTime_On)
+            m_Curr_FeverTime_Point += FEVER_TIME_POINT.FISH_ITEM;
     }
 
     public void Plus_Obstacle_Destroy_Num()
@@ -169,22 +200,131 @@ public class StageManager : MonoBehaviour {
 
     public void Plus_Enemy_Kill_Num(int type)
     {
-        switch (type)
+        if (!m_is_FeverTime_On) // 피버타임이 끝나야 가능.
         {
-            case ENEMY_TYPE.SMALL:
-                ++m_Small_Enemy_Kill_Num;
-                Score_Board_UI.GetInstance().Set_Small_Kill_Num_Text(m_Small_Enemy_Kill_Num);
-                break;
+            switch (type)
+            {
+                case ENEMY_TYPE.SMALL:
+                    ++m_Small_Enemy_Kill_Num;
+                    Score_Board_UI.GetInstance().Set_Small_Kill_Num_Text(m_Small_Enemy_Kill_Num);
+                    break;
 
-            case ENEMY_TYPE.MIDDLE:
-                ++m_Middle_Enemy_Kill_Num;
-                Score_Board_UI.GetInstance().Set_Middle_Kill_Num_Text(m_Middle_Enemy_Kill_Num);
-                break;
+                case ENEMY_TYPE.MIDDLE:
+                    ++m_Middle_Enemy_Kill_Num;
+                    Score_Board_UI.GetInstance().Set_Middle_Kill_Num_Text(m_Middle_Enemy_Kill_Num);
+                    break;
 
-            case ENEMY_TYPE.BIG:
-                ++m_Big_Enemy_Kill_Num;
-                Score_Board_UI.GetInstance().Set_Big_Kill_Num_Text(m_Big_Enemy_Kill_Num);
-                break;
+                case ENEMY_TYPE.BOSS:
+                    ++m_Big_Enemy_Kill_Num;
+                    Score_Board_UI.GetInstance().Set_Big_Kill_Num_Text(m_Big_Enemy_Kill_Num);
+                    break;
+            }
+        }
+    }
+
+
+
+    public bool Get_is_FeverTime_On()
+    {
+        return m_is_FeverTime_On;
+    }
+
+    public float Get_FeverTime_Max_Point()
+    {
+        return m_FeverTime_Max_Point;
+    }
+
+    public float Get_Curr_FeverTime_Point()
+    {
+        return m_Curr_FeverTime_Point;
+    }
+
+    public float Get_FeverTime_Duration()
+    {
+        return m_FeverTime_Duration;
+    }
+
+    public float Get_Elapsed_FeverTime()
+    {
+        return m_Elapsed_FeverTime;
+    }
+
+    public void Plus_FeverTime_Point(int point) // 피버타임 포인트를 추가하는 메소드.
+    {
+        m_Curr_FeverTime_Point += point;
+    }
+
+    IEnumerator FeverTime()
+    {
+        while(true)
+        {
+            if (!m_isPause)
+            {
+                if (m_is_FeverTime_On) // 피버타임이 켜졌을 때
+                {
+                    if (m_Elapsed_FeverTime > 0.0f) // 피버타임 시간이 남았다면
+                        m_Elapsed_FeverTime -= Time.deltaTime; // 시간 감소.
+
+                    else // 피버타임 시간이 다 됐다면
+                        SlowDown(); // 조금씩 속도를 늦추도록 한다.
+                }
+
+                else // 피버타임이 꺼졌을 때
+                {
+                    if (m_Curr_FeverTime_Point >= m_FeverTime_Max_Point) // 포인트가 충분히 모였다면
+                    {
+                        m_is_FeverTime_On = true; // 피버타임 시작.
+                        MapScroll.GetInstance().Change_Speed(FEVER_TIME_SPEED.FEVER); // 맵 스크롤 속도 5배 상승.
+                        Enemy_All_Kill(); // 맵에 존재하는 적 객체를 전부 처치한다.
+                        Player.GetInstance().Invincibility_Change(); // 무적 활성화.
+                        Player.GetInstance().Attack_Off(); // 공격 중지.
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+
+    void SlowDown()
+    {
+        if (m_SlowDown_Time >= 1.0f)
+        {
+            m_is_FeverTime_On = false; // 피버타임 종료.
+
+            Player.GetInstance().Invincibility_Change(); // 무적 비활성화.
+            MapScroll.GetInstance().Change_Speed(FEVER_TIME_SPEED.NORMAL); // 맵스크롤 속도 초기화.
+            m_Elapsed_FeverTime = m_FeverTime_Duration; // 시간 초기화.
+            m_Curr_FeverTime_Point = 0; // 포인트 초기화.
+            m_SlowDown_Time = 0.0f; // 감속 시간 초기화.
+            Distance_Checker.GetInstance().Reset_Distance_For_Fever_Point(); // 피버타임용 거리 측정기 초기화.
+            Player.GetInstance().Attack_On(); // 공격 재시작.
+        }
+
+        else if (m_SlowDown_Time >= 0.75f)
+        {
+            MapScroll.GetInstance().Change_Speed(FEVER_TIME_SPEED.SLOWDOWN_X2); // 이동속도 초기화.
+        }
+
+        else if (m_SlowDown_Time >= 0.5f)
+        {
+            MapScroll.GetInstance().Change_Speed(FEVER_TIME_SPEED.SLOWDOWN_X3); // 이동속도 초기화.
+        }
+
+        else if (m_SlowDown_Time >= 0.25f)
+        {
+            MapScroll.GetInstance().Change_Speed(FEVER_TIME_SPEED.SLOWDOWN_X4); // 이동속도 초기화.
+        }
+
+        m_SlowDown_Time += Time.deltaTime;
+    }
+
+    void Enemy_All_Kill()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemies.Length; ++i)
+        {
+            enemies[i].GetComponent<Enemy>().Dead_Start(); // 점수 획득 버전.
         }
     }
 

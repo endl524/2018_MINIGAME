@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\System\StageManager.cs" />
     <Compile Include="Assets\Scripts\UI\CountDown.cs" />
     <Compile Include="Assets\Scripts\UI\Distance_Checker.cs" />
+    <Compile Include="Assets\Scripts\UI\FeverTime_Gauge.cs" />
     <Compile Include="Assets\Scripts\UI\GameOver_Directing.cs" />
     <Compile Include="Assets\Scripts\UI\Gun_Ammo_Gauge.cs" />
     <Compile Include="Assets\Scripts\UI\Score_Board_UI.cs" />

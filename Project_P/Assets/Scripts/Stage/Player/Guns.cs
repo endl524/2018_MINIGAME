@@ -173,6 +173,10 @@ public class Guns : MonoBehaviour {
         return m_Left_Rounds_In_Magazine;
     }
 
+    public byte Get_Gun_Level()
+    {
+        return m_Curr_Gun_Level;
+    }
     // ===================================
 
 

@@ -51,6 +51,6 @@ public class Score_Board_UI : MonoBehaviour {
 
     public void Set_Level_Text(int num)
     {
-        m_Level_Text.text = num.ToString();
+        m_Level_Text.text = "Lv. " + num.ToString();
     }
 }

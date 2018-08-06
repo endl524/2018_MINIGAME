@@ -21,6 +21,8 @@ public class MapScroll : MonoBehaviour {
 
     static MapScroll m_Instance;
 
+    float m_Main_Speed = 1.0f;
+
     // Sky 관련 변수들
     public GameObject m_Sky_1;
     public GameObject m_Sky_2;
@@ -108,7 +110,7 @@ public class MapScroll : MonoBehaviour {
             pos.z = sky.transform.position.z;
             sky.transform.position = pos;
         }
-        sky.transform.Translate(-m_Sky_Speed * Time.deltaTime, 0.0f, 0.0f);
+        sky.transform.Translate(-m_Sky_Speed * m_Main_Speed * Time.deltaTime, 0.0f, 0.0f);
     }
 
 
@@ -122,7 +124,7 @@ public class MapScroll : MonoBehaviour {
             pos.z = land.transform.position.z;
             land.transform.position = pos;
         }
-        land.transform.Translate(-m_Land_Speed * Time.deltaTime, 0.0f, 0.0f);
+        land.transform.Translate(-m_Land_Speed * m_Main_Speed * Time.deltaTime, 0.0f, 0.0f);
     }
 
 
@@ -137,7 +139,7 @@ public class MapScroll : MonoBehaviour {
             lane.transform.position = pos;
         }
         
-        lane.transform.Translate(-m_Lane_Speed * Time.deltaTime, 0.0f, 0.0f);
+        lane.transform.Translate(-m_Lane_Speed * m_Main_Speed * Time.deltaTime, 0.0f, 0.0f);
     }
 
 
@@ -148,11 +150,14 @@ public class MapScroll : MonoBehaviour {
         return m_Lane_Speed;
     }
 
-    public void Change_Speed(float magnification) // 몇 배속인가?
+    public float Get_Main_Speed()
     {
-        m_Sky_Speed *= magnification;
-        m_Land_Speed *= magnification;
-        m_Lane_Speed *= magnification;
-        Distance_Checker.GetInstance().Set_Speed(m_Lane_Speed);
+        return m_Main_Speed;
+    }
+
+    public void Change_Speed(float main_speed_var) // 몇 배속인가?
+    {
+        m_Main_Speed = main_speed_var;
+        Distance_Checker.GetInstance().Set_Speed(m_Lane_Speed * m_Main_Speed);
     }
 }

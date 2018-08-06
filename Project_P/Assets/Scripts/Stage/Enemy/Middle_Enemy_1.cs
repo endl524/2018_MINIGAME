@@ -5,12 +5,10 @@ using UnityEngine;
 public class Middle_Enemy_1 : Enemy
 {
     Middle_Enemy_1_Detector m_Detector;
-    public GameObject m_Target;
+    GameObject m_Target;
 
     int m_Move_Dir = 1;
-
-    float m_Finding_Speed = 3.0f;
-    int m_Finding_Dir = 1;
+    
     float m_Sudden_Attack_CoolTime = 5.0f; // 급습 쿨타임
     float m_Waited_SA_cooltime = 0.0f; // 급습 쿨타임 기다린 시간
     float m_Following_Time = 3.0f; // 따라가기 지속 시간
@@ -23,9 +21,10 @@ public class Middle_Enemy_1 : Enemy
 
     void Start()
     {
-        Set_All_Status(ENEMY_TYPE.MIDDLE, 300.0f, 4.0f, 1.0f, 0.1f, -0.1f); // 스탯 설정
+        Set_All_Status(ENEMY_TYPE.MIDDLE, 300.0f * (0.5f + Guns.GetInstance().Get_Gun_Level() * 0.5f), 4.0f, 1.0f, 0.1f, -0.1f); // 스탯 설정
         Set_Up_Enemy_System(); // 시스템 가동
 
+        GetComponentsInChildren<BoxCollider>()[1].enabled = false; // 감지기 충돌체 비활성.
         m_Detector = GetComponentInChildren<Middle_Enemy_1_Detector>(); // 감지기 등록
 
         m_Pos_X_Checker = Pos_X_Check(); // x좌표 체커 등록.
@@ -47,6 +46,7 @@ public class Middle_Enemy_1 : Enemy
             {
                 if (transform.localPosition.x >= 8.75f)
                 {
+                    GetComponentsInChildren<BoxCollider>()[1].enabled = true; // 감지기 충돌체 활성화.
                     StartCoroutine(m_Move_Controller); // 이동 컨트롤 실행.
                     StopCoroutine(m_Pos_X_Checker); // x 좌표 체크 종료.
                 }
@@ -61,9 +61,13 @@ public class Middle_Enemy_1 : Enemy
         {
             if (!StageManager.GetInstance().Get_isPause())
             {
-                if (transform.localPosition.x >= 9.5f || transform.localPosition.x <= 8.5f)
+                if (transform.localPosition.x >= 9.5f)
                 {
-                    m_Move_Dir *= -1;
+                    m_Move_Dir = -1;
+                }
+                else if (transform.localPosition.x <= 8.5f)
+                {
+                    m_Move_Dir = 1;
                 }
             }
             yield return null;
@@ -74,27 +78,7 @@ public class Middle_Enemy_1 : Enemy
 
     protected override void Move() // 이동 오버로딩
     {
-        // 현재 Hoping에 문제 발생.
-        /*
-        if (transform.localPosition.y >= m_Hoping_Max || transform.localPosition.y <= m_Hoping_Min)
-        {
-            if (!m_is_Edge)
-            {
-                m_Hoping_Speed *= -1.0f;
-                m_is_Edge = true;
-            }
-        }
-
-        transform.Translate(new Vector3(m_Move_Speed * m_Move_Dir * Time.deltaTime, m_Move_Speed * m_Hoping_Speed * Time.deltaTime * 0.5f, 0.0f));
-
-        if (transform.localPosition.y < m_Hoping_Max && transform.localPosition.y > m_Hoping_Min)
-        {
-            m_is_Edge = false;
-        }
-        */
-        // 당분간 앞뒤로만 움직이도록.
         transform.Translate(new Vector3(m_Move_Speed * m_Move_Dir * Time.deltaTime, 0.0f, 0.0f));
-
     }
 
 
@@ -123,6 +107,8 @@ public class Middle_Enemy_1 : Enemy
     void Dive() // 잠수 시작
     {
         m_Animations.Play(m_Animations.GetClip("Middle_Enemy_1_Dive").name); // 잠수 애니메이션 실행.
+        StopCoroutine(m_Move_Controller); // 이동 컨트롤 멈춤.
+        Stop_Move(); // 이동 정지.
         StopCoroutine(m_Ready_To_Attack); // 공격 대기를 멈춘다.
         m_Waited_SA_cooltime = 0.0f; // 대기한 쿨타임 초기화.
         m_Target = m_Detector.Get_Target(); // 타겟을 받아온다.
@@ -165,7 +151,9 @@ public class Middle_Enemy_1 : Enemy
             m_Followed_Time = 0.0f; // 따라가기 시간 초기화.
 
             m_Target = null; // 타겟 초기화.
-            StartCoroutine(m_Ready_To_Attack); // 공격 대기 시작.
+            StartCoroutine(m_Move_Controller); // 이동 컨트롤 재시작.
+            Start_Move(); // 이동 재시작.
+            StartCoroutine(m_Ready_To_Attack); // 공격 대기 재시작.
         }
     }
 }

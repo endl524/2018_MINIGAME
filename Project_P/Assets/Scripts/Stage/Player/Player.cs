@@ -50,8 +50,7 @@ public class Player : MonoBehaviour {
 
     void OnDestroy()
     {
-        StopCoroutine(m_Move_Coroutine);
-        StopCoroutine(m_Attack_Coroutine);
+        StopAllCoroutines();
     }
 
     public static Player GetInstance()
@@ -72,6 +71,14 @@ public class Player : MonoBehaviour {
                     (collision.gameObject.CompareTag("Enemy") && !collision.gameObject.GetComponent<Enemy>().Get_is_Dead()))
                 {
                     Dead_Start();
+                }
+            }
+            else // 무적일 때
+            {
+                if (collision.gameObject.CompareTag("Obstacle")) // 장애물과 부딪히면
+                {
+                    StageManager.GetInstance().Plus_Obstacle_Destroy_Num(); // 장애물 파괴 개수 증가.
+                    Destroy(collision.gameObject); // 장애물 파괴.
                 }
             }
 
@@ -153,7 +160,17 @@ public class Player : MonoBehaviour {
             yield return null;
         }
     }
-    
+
+    public void Attack_On()
+    {
+        StartCoroutine(m_Attack_Coroutine);
+    }
+
+    public void Attack_Off()
+    {
+        StopCoroutine(m_Attack_Coroutine);
+    }
+
     void Dead_Start()
     {
         m_Player_Animation.Play(m_Player_Animation.GetClip("Player_Dead").name);

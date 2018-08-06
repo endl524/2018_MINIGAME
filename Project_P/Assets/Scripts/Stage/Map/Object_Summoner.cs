@@ -41,12 +41,22 @@ public class Object_Summoner : MonoBehaviour {
     public int m_Object_Type;
     public float m_Summon_Time = 10.0f; // 소환 대기 시간. (Default 10초로 설정.)
     float m_Waited_Summon_Time; // 실제 대기한 시간.
-    
+
+    IEnumerator m_Summon_Coroutine;
+    IEnumerator m_FeverTime_Checker;
+
+    float m_Normal_Summon_Time; // 피버타임 대비용. (소환 대기 시간 저장)
+    bool m_is_Fever_Mode_Setting_Over = false;
+
 	void Start ()
     {
         m_Waited_Summon_Time = m_Summon_Time;
-        StartCoroutine(Summon_Object()); // 소환 시작
-	}
+        
+        m_Summon_Coroutine = Summon_Object(); // 소환 코루틴 등록.
+        m_FeverTime_Checker = FeverTime_Check(); // 피버타임 체크 코루틴 등록.
+        StartCoroutine(m_Summon_Coroutine); // 소환 시작.
+        StartCoroutine(m_FeverTime_Checker); // 피버타임 체크 시작.
+    }
 
     IEnumerator Summon_Object()
     {
@@ -54,7 +64,10 @@ public class Object_Summoner : MonoBehaviour {
         {
             if (!StageManager.GetInstance().Get_isPause())
             {
-                if (m_Waited_Summon_Time >= m_Summon_Time) // 소환 시간이 되면
+                if (m_Object_Type == OBJECT_TYPE.ENEMY && StageManager.GetInstance().Get_is_FeverTime_On())
+                    yield return null;
+
+                else if (m_Waited_Summon_Time >= m_Summon_Time) // 소환 시간이 되면
                 {
                     switch(m_Object_Type) // 무작위 패턴을 불러온다.
                     {
@@ -81,12 +94,50 @@ public class Object_Summoner : MonoBehaviour {
                     }
                     m_Waited_Summon_Time = 0.0f;
                 }
+
                 else m_Waited_Summon_Time += Time.deltaTime;
             }
 
             yield return null;
         }
     }
+
+    
+
+    IEnumerator FeverTime_Check()
+    {
+        while(true)
+        {
+            if (StageManager.GetInstance().Get_is_FeverTime_On() && !m_is_Fever_Mode_Setting_Over) // 피버타임이 활성화되면
+            {
+                m_Normal_Summon_Time = m_Summon_Time; // 원래 소환 시간을 기억해두고
+                m_Summon_Time = m_Summon_Time * 0.2f; // 소환시간을 5배 빠르게 한다.
+                m_is_Fever_Mode_Setting_Over = true; // 세팅 완료 알림.
+            }
+
+            if (!StageManager.GetInstance().Get_is_FeverTime_On() && m_is_Fever_Mode_Setting_Over) // 피버타임 세팅이 끝났고, 피버타임이 끝났다면
+            {
+                m_Summon_Time = m_Normal_Summon_Time; // 원래 소환 시간으로 복귀.
+                m_is_Fever_Mode_Setting_Over = false; // 세팅 완료 알림 종료.
+            }
+            yield return null;
+        }
+    }
+
+
+    
+
+
+    public void Start_Spawn()
+    {
+        StartCoroutine(m_Summon_Coroutine); // 소환 코루틴 시작
+    }
+
+    public void Stop_Spawn()
+    {
+        StopCoroutine(m_Summon_Coroutine); // 소환 코루틴 종료
+    }
+
 
     public float Get_Summon_Time()
     {

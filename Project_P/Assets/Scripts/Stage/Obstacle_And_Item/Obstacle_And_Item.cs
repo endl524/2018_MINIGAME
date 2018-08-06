@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Obstacle_And_Item: MonoBehaviour {
-
+    
     protected Animation m_Animations;
 
     IEnumerator m_Move_Coroutine;
@@ -11,7 +11,6 @@ public class Obstacle_And_Item: MonoBehaviour {
     protected float m_Move_Speed;
 
     bool m_is_Destroied = false;
-    
 
     void OnDestroy()
     {
@@ -47,7 +46,7 @@ public class Obstacle_And_Item: MonoBehaviour {
 
     protected virtual void Move()
     {
-        transform.Translate(new Vector3(-m_Move_Speed * Time.deltaTime, 0.0f, 0.0f));
+        transform.Translate(new Vector3(-m_Move_Speed * MapScroll.GetInstance().Get_Main_Speed() * Time.deltaTime, 0.0f, 0.0f));
         m_Animations.Play(m_Animations.GetClip("O_AND_I_Floating").name);
     }
 

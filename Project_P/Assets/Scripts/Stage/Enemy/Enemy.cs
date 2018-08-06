@@ -6,7 +6,7 @@ static class ENEMY_TYPE
 {
     public const int SMALL = 0;
     public const int MIDDLE = 1;
-    public const int BIG = 2;
+    public const int BOSS = 2;
 }
 
 public class Enemy : MonoBehaviour {
@@ -34,11 +34,6 @@ public class Enemy : MonoBehaviour {
     protected Enemy()
     {
         m_Instance = this;
-    }
-
-    void OnDestroy()
-    {
-        StopCoroutine(m_Move_Coroutine);
     }
 
     public static Enemy GetInstance()
@@ -152,8 +147,11 @@ public class Enemy : MonoBehaviour {
         StopCoroutine(m_Move_Coroutine);
     }
 
-    void Dead_Start()
+    public void Dead_Start()
     {
+        StopAllCoroutines(); // 모든 코루틴을 멈춘다.
+        m_Animations.Stop(); // 모든 애니메이션을 멈춘다.
+        
         StageManager.GetInstance().Plus_Enemy_Kill_Num(m_Enemy_Type);
         m_is_Dead = true;
         m_Animations.Play(m_Animations.GetClip("Enemy_Dead").name);
@@ -164,6 +162,8 @@ public class Enemy : MonoBehaviour {
     {
         if (m_Animations["Enemy_Dead"].normalizedTime >= 0.95f)
         {
+            if (m_Enemy_Type != ENEMY_TYPE.SMALL) // 중형/보스급 적 사망 시
+                transform.parent.parent.GetComponent<Object_Summoner>().Start_Spawn(); // 적 소환 재시작
             Destroy(gameObject);
         }
         else
@@ -192,6 +192,9 @@ public class Enemy : MonoBehaviour {
     {
         m_Animations = GetComponent<Animation>(); // 애니메이션 등록.
         m_Hurt_Blinker = GetComponentsInChildren<Animation>()[1]; // 피격 깜빡이 애니메이션 등록
+
+        if (m_Enemy_Type != ENEMY_TYPE.SMALL) // 중형/보스급 적은
+            transform.parent.parent.GetComponent<Object_Summoner>().Stop_Spawn(); // 적 소환 정지.
 
         m_Move_Coroutine = Moving(); // 이동 코루틴 등록
         StartCoroutine(m_Move_Coroutine); // 이동 시작
