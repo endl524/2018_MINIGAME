@@ -2296,7 +2296,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 612537800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.2, z: 9}
+  m_LocalPosition: {x: 0, y: -1.2, z: 9.5}
   m_LocalScale: {x: 2, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 917815530}
@@ -5608,7 +5608,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1366144508}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.45, y: -1.2, z: 9}
+  m_LocalPosition: {x: 20.45, y: -1.2, z: 9.5}
   m_LocalScale: {x: 2, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 917815530}
@@ -7953,7 +7953,7 @@ MonoBehaviour:
   m_PauseButton: {fileID: 1398078634}
   m_Fade_Object: {fileID: 548346389}
   m_Curr_FeverTime_Point: 0
-  m_is_Debug_Mode: 0
+  m_is_Debug_Mode: 1
   m_is_invincible_On: 0
 --- !u!4 &2016978594
 Transform:
@@ -8511,9 +8511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb4d9bd051a71f48a18edd27bce7c19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshold: 0.5
+  threshold: 0.8
   intensity: 0.2
-  blurSize: 0.25
+  blurSize: 0.5
   blurIterations: 4
   fastBloomMaterial: {fileID: 2100000, guid: 221340b8b5ad10940ba1646f87e3770c, type: 2}
 --- !u!1 &2080836382
