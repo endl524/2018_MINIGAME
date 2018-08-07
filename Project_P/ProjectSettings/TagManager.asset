@@ -14,6 +14,7 @@ TagManager:
   - Enemy_Catcher
   - Item_ShotGun
   - Item_AR
+  - Fade_Image
   layers:
   - Default
   - TransparentFX

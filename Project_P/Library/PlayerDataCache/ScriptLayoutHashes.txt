@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/pc/Desktop/현장실습 프로젝트/2018_MINIGAME/Build_180806/Build_180806.exe
+C:/Users/pc/Desktop/현장실습 프로젝트/2018_MINIGAME/Build_180807/Build_180807.exe
 SceneListBegin?
 Assets/Scenes/Lobby.unity
 Assets/Scenes/MainStage.unity
@@ -144,7 +144,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
-b7b3f41e74734be8905030fab71233eb Assembly-CSharp.dll:.MapScroll
+536151b68612d34f8a56e24f3c6c8646 Assembly-CSharp.dll:.MapScroll
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Small_Enemy_2
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 f02726adeff0a3ec5905565234b372da UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -171,4 +171,5 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.SceneSwap
 2328b7492798cf7ab193c55a38f1ad6b Assembly-CSharp.dll:.GameOver_Directing
 606d3ccad8937dd1d25e6c6b305202b1 Assembly-CSharp.dll:.CountDown
-3eba32477a2eeb114b145e4ad7177bda Assembly-CSharp.dll:.StageManager
+add3e0a794c3940223c7f27209636cc5 Assembly-CSharp.dll:.StageManager
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Fade_Manager

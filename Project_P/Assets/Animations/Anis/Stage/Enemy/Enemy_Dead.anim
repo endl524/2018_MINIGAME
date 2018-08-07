@@ -386,7 +386,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: 
+    path: Sprite
   m_CompressedRotationCurves: []
   m_EulerCurves: []
   m_PositionCurves: []
@@ -415,7 +415,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: 
+    path: Sprite
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -472,7 +472,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -500,7 +500,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -528,7 +528,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -907,7 +907,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.x
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1286,7 +1286,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.y
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1665,7 +1665,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.z
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2044,7 +2044,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalRotation.w
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -2073,7 +2073,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesBaked.x
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2101,7 +2101,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesBaked.y
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2129,7 +2129,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesBaked.z
-    path: 
+    path: Sprite
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

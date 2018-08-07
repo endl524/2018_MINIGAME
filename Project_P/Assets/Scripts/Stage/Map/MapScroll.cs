@@ -44,6 +44,12 @@ public class MapScroll : MonoBehaviour {
     float m_Lane_Width;
 
 
+    public Sprite m_Sky_Normal_Sprite;
+    public Sprite m_Sky_Fever_Sprite;
+    public Sprite m_Land_Normal_Sprite;
+    public Sprite m_Land_Fever_Sprite;
+    
+
 
     void Awake ()
     {
@@ -159,5 +165,21 @@ public class MapScroll : MonoBehaviour {
     {
         m_Main_Speed = main_speed_var;
         Distance_Checker.GetInstance().Set_Speed(m_Lane_Speed * m_Main_Speed);
+    }
+
+    public void Map_Change_Fever()
+    {
+        m_Sky_1.GetComponent<SpriteRenderer>().sprite = m_Sky_Fever_Sprite;
+        m_Sky_2.GetComponent<SpriteRenderer>().sprite = m_Sky_Fever_Sprite;
+        m_Land_1.GetComponent<SpriteRenderer>().sprite = m_Land_Fever_Sprite;
+        m_Land_2.GetComponent<SpriteRenderer>().sprite = m_Land_Fever_Sprite;
+    }
+
+    public void Map_Change_Normal()
+    {
+        m_Sky_1.GetComponent<SpriteRenderer>().sprite = m_Sky_Normal_Sprite;
+        m_Sky_2.GetComponent<SpriteRenderer>().sprite = m_Sky_Normal_Sprite;
+        m_Land_1.GetComponent<SpriteRenderer>().sprite = m_Land_Normal_Sprite;
+        m_Land_2.GetComponent<SpriteRenderer>().sprite = m_Land_Normal_Sprite;
     }
 }
